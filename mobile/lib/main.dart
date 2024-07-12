@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/SplashScreen.dart';
 import 'package:mobile/utils/darkTheme.dart';
 import 'package:mobile/utils/lightTheme.dart';
-import 'package:mobile/screens/RegisterScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Indoor Tracking',
       theme: light,
       darkTheme: dark,
-      home: RegisterScreen(),
+      home: SplashScreen(),
     );
   }
 }
