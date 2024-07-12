@@ -12,6 +12,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  UserService userService = UserService();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _registerController = TextEditingController();
@@ -25,7 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       String password = _passwordController.text;
       String register = _registerController.text;
       try {
-        await signUpEmailPassword(name, register, password, email);
+        await userService.signUpEmailPassword(name, register, password, email);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

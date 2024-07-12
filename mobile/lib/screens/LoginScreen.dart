@@ -14,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  UserService userService = UserService();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String email = _emailController.text;
       String password = _passwordController.text;
       try {
-        _token = await signInEmailPassword(email, password);
+        _token = await userService.signInEmailPassword(email, password);
         await _saveLogin(_token);
         Navigator.pushReplacement(
           context,

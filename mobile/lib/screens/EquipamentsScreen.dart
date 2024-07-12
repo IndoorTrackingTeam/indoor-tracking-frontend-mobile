@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/api/equipamentService.dart';
+import 'package:mobile/widgets/Navbar.dart';
 
 class EquipamentsScreen extends StatefulWidget {
   final String _token;
@@ -10,29 +13,45 @@ class EquipamentsScreen extends StatefulWidget {
 }
 
 class _EquipamentsScreenState extends State<EquipamentsScreen> {
-  Future<void> _logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('logged_in', false);
-    await prefs.remove('auth_token');
-    Navigator.pushReplacementNamed(context, '/login');
+  EquipamentService equipamentService = EquipamentService();
+  List<dynamic> equipaments = [];
+  bool isLoading = true;
+
+  Future<void> _fetchEquipaments() async {
+    setState(() {
+      isLoading = true;
+    });
+    List<dynamic> list = await equipamentService.getEquipaments();
+    setState(() {
+      equipaments = list;
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchEquipaments();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.redAccent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(widget._token),
-          ElevatedButton(
-            onPressed: _logout,
-            child: Text('Logout'),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
+        padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: equipaments.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(equipaments[index]['name']),
+                  );
+                },
+              ),
       ),
+      bottomNavigationBar: Navbar(context, widget._token, 0),
     );
   }
 }
