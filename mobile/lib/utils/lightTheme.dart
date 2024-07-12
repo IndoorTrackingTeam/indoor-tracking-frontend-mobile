@@ -130,10 +130,19 @@ ThemeData light = ThemeData(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(
-        color: Color(0xFF2D2D2D),
+        color: Color(0xFFF2F2F2),
+        width: 0,
       ),
+    ),
+    labelStyle: TextStyle(
+      color: Color(0xFF2D2D2D),
     ),
     filled: true,
     fillColor: Color(0xFFFFFFFF),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    checkColor: MaterialStateProperty.resolveWith<Color?>(
+      (states) => Color(0xFFF2F2F2),
+    ),
   ),
 );

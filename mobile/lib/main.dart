@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/utils/darkTheme.dart';
 import 'package:mobile/utils/lightTheme.dart';
-import 'package:mobile/screens/loginScreen.dart';
+import 'package:mobile/screens/RegisterScreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Indoor Tracking',
       theme: light,
       darkTheme: dark,
-      home: const LoginScreen(),
+      home: RegisterScreen(),
     );
   }
 }

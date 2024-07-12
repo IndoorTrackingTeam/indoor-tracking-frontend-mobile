@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData dark = ThemeData(
+  fontFamily: GoogleFonts.play().fontFamily,
   textTheme: GoogleFonts.playTextTheme().copyWith(
     displayLarge: TextStyle(
       fontSize: 96,
@@ -88,7 +89,7 @@ ThemeData dark = ThemeData(
     surface: Color(0xFFF2F2F2),
     onSurface: Color(0xFFF2F2F2),
   ),
-  scaffoldBackgroundColor: Color(0xFF2D2D2D),
+  scaffoldBackgroundColor: Color(0xFF1E1E1E),
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xFF298C4C),
     titleTextStyle: GoogleFonts.play(
@@ -140,12 +141,29 @@ ThemeData dark = ThemeData(
       },
     ),
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(
+        color: Color(0xFF2D2D2D),
+        width: 0,
+      ),
+    ),
+    labelStyle: TextStyle(
+      color: Color(0xFFF2F2F2),
+    ),
+    filled: true,
+    fillColor: Color(0xFF2D2D2D),
+  ),
   checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateColor.resolveWith(
-        (states) => Color(0xFFF2F2F2),
-      ),
-      checkColor: MaterialStateProperty.resolveWith<Color?>(
-        (states) => Color(0xFF2D2D2D),
-      ),
-      side: BorderSide(color: Color(0xFF298C4C))),
+    fillColor: MaterialStateColor.resolveWith(
+      (states) => Color(0xFF2D2D2D),
+    ),
+    checkColor: MaterialStateProperty.resolveWith<Color?>(
+      (states) => Color(0xFFF2F2F2),
+    ),
+    side: BorderSide(
+      color: Color(0xFFF2F2F2),
+    ),
+  ),
 );
