@@ -2,66 +2,43 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile/api/userService.dart';
-import 'package:mobile/screens/EquipamentsScreen.dart';
-import 'package:mobile/screens/RegisterScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile/screens/LoginScreen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _registerController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _rememberMe = false;
-  bool _isLoggedIn = false;
-  String _token = '';
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> _login() async {
+  Future<void> _register() async {
     if (_formKey.currentState?.validate() ?? false) {
+      String name = _nameController.text;
       String email = _emailController.text;
       String password = _passwordController.text;
+      String register = _registerController.text;
       try {
-        _token = await signInEmailPassword(email, password);
-        await _saveLogin(_token);
+        await signUpEmailPassword(name, register, password, email);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => EquipamentsScreen(_token),
+            builder: (context) => LoginScreen(),
           ),
         );
       } catch (e) {
+        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: ${e.toString()}')),
+          SnackBar(content: Text('Register failed: ${e.toString()}')),
         );
       }
     }
-  }
-
-  Future<void> _saveLogin(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('logged_in', true);
-    await prefs.setString('auth_token', token);
-    setState(() {
-      _isLoggedIn = true;
-      _token = token;
-    });
   }
 
   @override
@@ -80,20 +57,56 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Olá novamente!',
+                      'Olá!',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
                     Text(
-                      'Seja bem-vindo.',
+                      'Cadastre-se para continuar.',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
                   ],
+                ),
+              ),
+              SizedBox(height: 24),
+              Container(
+                child: TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nome completo',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Coloque seu nome, por favor';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(height: 24),
+              Container(
+                child: TextFormField(
+                  controller: _registerController,
+                  decoration: InputDecoration(
+                    labelText: 'Número de registro',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Coloque seu número de registro, por favor';
+                    }
+                    return null;
+                  },
                 ),
               ),
               SizedBox(height: 24),
@@ -133,38 +146,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
               ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _rememberMe,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _rememberMe = value ?? false;
-                      });
-                    },
-                    side: BorderSide(width: 1),
-                  ),
-                  Text(
-                    'Lembrar de mim',
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      print("Clicado.");
-                    },
-                    child: Text(
-                      'Esqueceu a senha?',
-                      style: TextStyle(
-                        fontSize: 14,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  )
-                ],
-              ),
+              SizedBox(height: 24),
               OutlinedButton(
-                onPressed: _login,
-                child: Text('LOGIN'),
+                onPressed: _register,
+                child: Text('CADASTRAR'),
                 style: OutlinedButton.styleFrom(
                   minimumSize: Size(double.infinity, 56),
                   maximumSize: Size(double.infinity, 56),
@@ -175,11 +160,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
                 child: Text(
-                  'Não tem uma conta? Registre-se',
+                  'Já tenho uma conta',
                   style: TextStyle(
                     fontSize: 14,
                     decoration: TextDecoration.underline,
