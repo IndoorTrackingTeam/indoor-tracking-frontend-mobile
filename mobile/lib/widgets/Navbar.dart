@@ -1,8 +1,8 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names
 
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/EquipamentsScreen.dart';
-import 'package:mobile/screens/SettingsScreen.dart';
+import 'package:mobile/screens/equipaments_screen.dart';
+import 'package:mobile/screens/settings_screen.dart';
 
 Widget Navbar(BuildContext context, String token, int index) {
   return Container(
@@ -89,34 +89,35 @@ Widget Navbar(BuildContext context, String token, int index) {
                 ),
               ),
               Expanded(
-                  flex: 3,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SettingsScreen(token),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color(0xFFF2F2F2),
+                flex: 3,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingsScreen(token),
                       ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.settings, color: Color(0xFF298C4C)),
-                          SizedBox(width: 10),
-                          const Text('Configurações',
-                              style: TextStyle(color: Color(0xFF298C4C))),
-                        ],
-                      ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xFFF2F2F2),
                     ),
-                  ))
+                    child: Row(
+                      children: [
+                        Icon(Icons.settings, color: Color(0xFF298C4C)),
+                        SizedBox(width: 10),
+                        const Text('Configurações',
+                            style: TextStyle(color: Color(0xFF298C4C))),
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
   );

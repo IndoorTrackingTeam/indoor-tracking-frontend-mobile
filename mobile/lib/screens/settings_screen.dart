@@ -1,9 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:mobile/screens/LoginScreen.dart';
-import 'package:mobile/widgets/Navbar.dart';
+import 'package:mobile/screens/login_screen.dart';
+import 'package:mobile/widgets/navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -76,9 +75,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SizedBox(height: 10),
             ListTile(
               title: Text('Redefinir senha'),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-              ),
               onTap: () {},
               tileColor: Color(0xFFFFFFFF),
               shape: RoundedRectangleBorder(
@@ -88,10 +84,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SizedBox(height: 10),
             ListTile(
               title: Text('Mudar idioma'),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-              ),
               onTap: () {},
+              tileColor: Color(0xFFFFFFFF),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            SizedBox(height: 10),
+            ListTile(
+              title: Text('Sair do aplicativo'),
+              onTap: () {
+                _logout();
+              },
               tileColor: Color(0xFFFFFFFF),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),

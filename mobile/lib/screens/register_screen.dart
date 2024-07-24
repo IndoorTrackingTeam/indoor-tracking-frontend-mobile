@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, avoid_print, avoid_unnecessary_containers, unused_field, unused_local_variable, use_build_context_synchronously, unused_element
 
 import 'package:flutter/material.dart';
-import 'package:mobile/api/userService.dart';
-import 'package:mobile/screens/LoginScreen.dart';
+import 'package:mobile/api/user_service.dart';
+import 'package:mobile/screens/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -87,24 +87,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Coloque seu nome, por favor';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: TextFormField(
-                  controller: _registerController,
-                  decoration: InputDecoration(
-                    labelText: 'Número de registro',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Coloque seu número de registro, por favor';
                     }
                     return null;
                   },
