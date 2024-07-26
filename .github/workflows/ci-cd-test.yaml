@@ -23,6 +23,11 @@ jobs:
         with:
           flutter-version: '3.3.4'
 
+      - name: Clean Pub Cache
+        run: |
+          cd mobile
+          flutter pub cache repair
+
       - name: Install dependencies
         run: |
           cd mobile
