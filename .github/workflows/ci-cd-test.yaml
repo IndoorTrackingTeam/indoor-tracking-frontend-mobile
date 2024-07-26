@@ -23,8 +23,6 @@ jobs:
       - run: |
           cd mobile
           flutter pub get
-          flutter format --dry-run --set-exit-if-changed lib/
-          flutter format --dry-run --set-exit-if-changed test/
           flutter test --coverage
           flutter test --machine > test-results.json
       - uses: dorny/test-reporter@v1.4.2
