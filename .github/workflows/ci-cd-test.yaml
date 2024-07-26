@@ -25,11 +25,9 @@ jobs:
           flutter pub get
           flutter test --coverage
           flutter test --machine > test-results.json
-      - uses: dorny/test-reporter@v1.4.2
+          dart run test_reporter:main test_results/tests.json test_results/report.html
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: mobile/test-results.json
-          reporter: flutter-json
-      - uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
-        with:
-          min_coverage: 0
+          path: mobile/test_results/
