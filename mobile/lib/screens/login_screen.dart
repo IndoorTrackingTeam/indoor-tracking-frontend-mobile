@@ -100,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 24),
               Container(
                 child: TextFormField(
+                  key: Key("email_key"),
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -118,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 24),
               Container(
                 child: TextFormField(
+                  key: Key("password_key"),
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Senha',
@@ -137,6 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 children: [
                   Checkbox(
+                    key: Key("remember_me_key"),
                     value: _rememberMe,
                     onChanged: (bool? value) {
                       setState(() {
@@ -150,6 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Spacer(),
                   GestureDetector(
+                    key: Key("forgot_password_key"),
                     onTap: () {
                       print("Clicado.");
                     },
@@ -164,6 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               OutlinedButton(
+                key: Key("login_button"),
                 onPressed: _login,
                 child: Text('LOGIN'),
                 style: OutlinedButton.styleFrom(
@@ -173,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 12),
               GestureDetector(
+                key: Key("register_button"),
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
