@@ -9,8 +9,8 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  integration-tests:
+    name: Integration Tests
     runs-on: ubuntu-latest
     environment: frontend
     steps:
@@ -23,8 +23,25 @@ jobs:
         with:
           flutter-version: '3.0.0'
 
+      - name: Change directory to mobile
+        run: |
+          ls -la
+          cd mobile
+
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
+      - name: Run tests and save results
+        run: |
+          mkdir -p test_results
+          flutter test --machine > test_results/tests.json
+
+      - name: Convert test results to HTML
+        run: |
+          dart run test_reporter:main test_results/tests.json test_results/report.html
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: test_results/
