@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/login_screen.dart';
-import 'package:mobile/widgets/navbar.dart';
+import 'package:mobile/widgets/bottom_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
