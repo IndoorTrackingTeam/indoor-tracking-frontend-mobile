@@ -21,13 +21,13 @@ jobs:
         with:
           channel: "stable"
       - run: |
-        cd mobile
-        flutter pub get
-        flutter analyze
-        flutter format --dry-run --set-exit-if-changed lib/
-        flutter format --dry-run --set-exit-if-changed test/
-        flutter test --coverage
-        flutter test --machine > test-results.json
+          cd mobile
+          flutter pub get
+          flutter analyze
+          flutter format --dry-run --set-exit-if-changed lib/
+          flutter format --dry-run --set-exit-if-changed test/
+          flutter test --coverage
+          flutter test --machine > test-results.json
       - uses: dorny/test-reporter@v1.4.2
         with:
           name: test-results
