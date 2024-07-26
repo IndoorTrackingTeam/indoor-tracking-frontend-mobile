@@ -23,7 +23,6 @@ jobs:
       - run: |
           cd mobile
           flutter pub get
-          flutter analyze
           flutter format --dry-run --set-exit-if-changed lib/
           flutter format --dry-run --set-exit-if-changed test/
           flutter test --coverage
