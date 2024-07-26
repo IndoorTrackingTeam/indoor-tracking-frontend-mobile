@@ -23,22 +23,20 @@ jobs:
         with:
           flutter-version: '3.0.0'
 
-      - name: Change directory to mobile
-        run: |
-          ls
-          cd mobile
-          ls
-
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          cd mobile
+          flutter pub get
 
       - name: Run tests and save results
         run: |
+          cd mobile
           mkdir -p test_results
           flutter test --machine > test_results/tests.json
 
       - name: Convert test results to HTML
         run: |
+          cd mobile
           dart run test_reporter:main test_results/tests.json test_results/report.html
 
       - name: Upload test results
