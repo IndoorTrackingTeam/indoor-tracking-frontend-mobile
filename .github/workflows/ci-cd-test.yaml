@@ -7,7 +7,7 @@ on:
       - development-mobile
   pull_request:
     types: [opened, synchronize, reopened]
-    
+
 permissions:
   contents: read
   actions: read
@@ -44,15 +44,4 @@ jobs:
         name: Flutter Tests
         path: mobile/tests.output
         reporter: flutter-json
-        fail-on-error: false
-
-    - name: Post test result as comment
-      if: always()
-      uses: dorny/test-reporter@v1.9.1
-      with:
-        name: Flutter Tests
-        path: mobile/tests.output
-        reporter: flutter-json
-        check-name: Flutter Tests
-        comment-on-pr: true
         fail-on-error: false
