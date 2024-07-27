@@ -13,25 +13,35 @@ jobs:
     name: Run Flutter analyze and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
         with:
           java-version: "12.x"
-      - uses: subosito/flutter-action@v1
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - run: |
+
+      - name: Get dependencies and run tests
+        run: |
           cd mobile
           flutter pub get
           flutter test --coverage
           flutter test --machine > test-results.json
-      - uses: ueki-tomohiro/flutter-test-action@v1
+
+      - name: Process test results
+        uses: ueki-tomohiro/flutter-test-action@v1
         with:
-          machinPath: mobile/test-results.json
+          machinePath: mobile/test-results.json
           coveragePath: coverage/lcov.info
-        if: success() || failure()
+        if: always()
+
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
-          name: test-results
-          path: mobile/test_results/
+          name: test-results.json
+          path: mobile/
