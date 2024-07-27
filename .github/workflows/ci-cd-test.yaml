@@ -33,13 +33,13 @@ jobs:
           flutter test --coverage
           flutter test --machine > test-results.json
 
-      - name: Generate Test report
+      - name: Generate JUnit report
         run: |
           cd mobile
-          flutter pub run test_report:main --input=test-results.json --output=report.html
-      
-      - name: Upload Test report
+          flutter pub run junitreport:tojunit --input=test-results.json --output=report.xml
+
+      - name: Upload JUnit report
         uses: actions/upload-artifact@v2
         with:
-          name: test-report
-          path: mobile/report.html
+          name: junit-report
+          path: mobile/report.xml
