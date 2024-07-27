@@ -12,6 +12,7 @@ jobs:
   flutter_test:
     name: Run Flutter analyze and test
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -33,14 +34,37 @@ jobs:
           flutter test --coverage
           flutter test --machine > test-results.json
 
-      - uses: dorny/test-reporter@v1.4.2
+      - name: Generate JUnit report
+        run: |
+          cd mobile
+          flutter pub run junitreport:tojunit --input=test-results.json --output=report.xml
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install Node.js dependencies
+        run: npm install junit-viewer
+
+      - name: Generate HTML report
+        run: |
+          npx junit-viewer --results=mobile/report.xml --save=mobile/report.html
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: mobile/test-results.json
-          reporter: flutter-json
+          path: mobile/test-results/
 
       - name: Upload JUnit report
         uses: actions/upload-artifact@v2
         with:
-          name: test-results
-          path: mobile/test-results
+          name: junit-report
+          path: mobile/report.xml
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v2
+        with:
+          name: html-report
+          path: mobile/report.html
