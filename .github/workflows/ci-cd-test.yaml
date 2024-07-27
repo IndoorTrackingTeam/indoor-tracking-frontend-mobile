@@ -7,6 +7,11 @@ on:
       - development-mobile
   pull_request:
     types: [opened, synchronize, reopened]
+    
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 jobs:
   build:
@@ -21,7 +26,7 @@ jobs:
       with:
         channel: stable
         flutter-version-file: mobile/pubspec.yaml 
-        
+
     - name: Install dependencies
       run: |
         cd mobile
