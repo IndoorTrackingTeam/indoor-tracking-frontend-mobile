@@ -33,15 +33,13 @@ jobs:
           flutter test --coverage
           flutter test --machine > test-results.json
 
-      - name: Process test results
-        uses: ueki-tomohiro/flutter-test-action@v1
+      - name: Generate Test report
+        run: |
+          cd mobile
+          flutter pub run test_report:main --input=test-results.json --output=report.html
+      
+      - name: Upload Test report
+        uses: actions/upload-artifact@v2
         with:
-          machinePath: mobile/test-results.json
-          coveragePath: coverage/lcov.info
-        if: always()
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results.json
-          path: mobile/test-results.json
+          name: test-report
+          path: mobile/report.html
