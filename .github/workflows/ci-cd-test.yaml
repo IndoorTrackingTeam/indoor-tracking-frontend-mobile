@@ -22,17 +22,21 @@ jobs:
         flutter-version: 'stable'
 
     - name: Install dependencies
-      run: flutter pub get
+      run: |
+        cd mobile
+        flutter pub get
 
     - name: Run tests
-      run: flutter test --machine > tests.output
+      run: |
+        cd mobile
+        flutter test --machine > tests.output
 
     - name: Test Reporter
       uses: dorny/test-reporter@v1.9.1
       if: always()
       with:
         name: Flutter Tests
-        path: tests.output
+        path: mobile/tests.output
         reporter: flutter-json
         fail-on-error: false
 
@@ -41,7 +45,7 @@ jobs:
       uses: dorny/test-reporter@v1.9.1
       with:
         name: Flutter Tests
-        path: tests.output
+        path: mobile/tests.output
         reporter: flutter-json
         check-name: Flutter Tests
         comment-on-pr: true
