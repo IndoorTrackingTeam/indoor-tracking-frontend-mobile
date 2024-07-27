@@ -9,62 +9,40 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  flutter_test:
-    name: Run Flutter analyze and test
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Set up Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 'stable'
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
+    - name: Install dependencies
+      run: flutter pub get
 
-      - name: Get dependencies and run tests
-        run: |
-          cd mobile
-          flutter pub get
-          flutter test --coverage
-          flutter test --machine > test-results.json
+    - name: Run tests
+      run: flutter test --machine > tests.output
 
-      - name: Generate JUnit report
-        run: |
-          cd mobile
-          flutter pub run junitreport:tojunit --input=test-results.json --output=report.xml
+    - name: Test Reporter
+      uses: dorny/test-reporter@v1.9.1
+      if: always()
+      with:
+        name: Flutter Tests
+        path: tests.output
+        reporter: flutter-json
+        fail-on-error: false
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Install Node.js dependencies
-        run: npm install junit-viewer
-
-      - name: Generate HTML report
-        run: |
-          npx junit-viewer --results=mobile/report.xml --save=mobile/report.html
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-results
-          path: mobile/test-results/
-
-      - name: Upload JUnit report
-        uses: actions/upload-artifact@v2
-        with:
-          name: junit-report
-          path: mobile/report.xml
-
-      - name: Upload HTML report
-        uses: actions/upload-artifact@v2
-        with:
-          name: html-report
-          path: mobile/report.html
+    - name: Post test result as comment
+      if: always()
+      uses: dorny/test-reporter@v1.9.1
+      with:
+        name: Flutter Tests
+        path: tests.output
+        reporter: flutter-json
+        check-name: Flutter Tests
+        comment-on-pr: true
+        fail-on-error: false
