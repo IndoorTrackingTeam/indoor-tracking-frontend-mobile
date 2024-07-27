@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Flutter Tests
 
 on:
   push:
