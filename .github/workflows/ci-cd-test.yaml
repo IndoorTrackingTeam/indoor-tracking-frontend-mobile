@@ -25,7 +25,11 @@ jobs:
           flutter pub get
           flutter test --coverage
           flutter test --machine > test-results.json
-          dart run test_reporter:main test_results/tests.json test_results/report.html
+      - uses: ueki-tomohiro/flutter-test-action@v1
+        with:
+          machinPath: mobile/test-results.json
+          coveragePath: coverage/lcov.info
+        if: success() || failure()
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
