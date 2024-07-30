@@ -69,6 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      key: Key("welcome_text"),
                       'Olá!',
                       style: TextStyle(
                         fontSize: 24,
@@ -76,6 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     Text(
+                      key: Key("register_text"),
                       'Cadastre-se para continuar.',
                       style: TextStyle(
                         fontSize: 16,
@@ -88,6 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 24),
               Container(
                 child: TextFormField(
+                  key: Key("name_field"),
                   controller: _nameController,
                   decoration: InputDecoration(
                     labelText: 'Nome completo',
@@ -106,6 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 24),
               Container(
                 child: TextFormField(
+                  key: Key("email_field"),
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -119,6 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 24),
               Container(
                 child: TextFormField(
+                  key: Key("password_field"),
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Senha',
@@ -137,6 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 24),
               OutlinedButton(
+                key: Key("register_button"),
                 onPressed: _register,
                 child: Text('CADASTRAR'),
                 style: OutlinedButton.styleFrom(
@@ -146,6 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 12),
               GestureDetector(
+                key: Key("have_account_button"),
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
