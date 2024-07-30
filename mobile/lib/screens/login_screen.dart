@@ -37,11 +37,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String? _emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Por favor, insira um email';
+      return 'Coloque seu email, por favor';
     }
     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
     if (!emailRegex.hasMatch(value)) {
-      return 'Por favor, insira um email válido';
+      return 'Coloque um email válido, por favor';
     }
     return null;
   }

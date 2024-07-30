@@ -195,7 +195,7 @@ void main() {
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
 
-      expect(find.text('Coloque seu email, por favor'), findsOne);
+      expect(find.text('Por favor, insira um email'), findsOne);
       expect(find.text('Coloque sua senha, por favor'), findsOne);
     });
   });
