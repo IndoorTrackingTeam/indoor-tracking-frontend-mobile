@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Logo" width="300" height="300">
+</p
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
+[![Flutter Tests](https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml/badge.svg)](https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml)
 # Padrões de Commits
 
 Este repositório segue uma convenção de commits para manter um histórico claro e consistente. Abaixo está uma tabela com os tipos de commits e suas descrições.
