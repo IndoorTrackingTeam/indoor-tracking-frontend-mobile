@@ -16,7 +16,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarcloud:
+  sonarcloudmobile:
     name: SonarCloud
     runs-on: ubuntu-latest
     environment: frontend
@@ -30,3 +30,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: mobile/lib
+
+sonarcloudtests:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    environment: frontend
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: mobile/test
