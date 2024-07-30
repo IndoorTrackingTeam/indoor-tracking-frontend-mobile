@@ -4,98 +4,193 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/screens/register_screen.dart';
 
+class MockNavigatorObserver extends NavigatorObserver {
+  List<Route> pushedRoutes = [];
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    super.didPush(route, previousRoute);
+    pushedRoutes.add(route);
+  }
+}
+
 void main() {
-  group('Testando o carregamento dos widgets da tela.', () {
-    testWidgets('Deve ser exibido o texto de inicio corretamente na tela.',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: RegisterScreen(),
-        ),
-      );
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-      final welcomeText = find.byKey(Key('welcome_text'));
+  group('Testando tela de Registro', () {
+    group('Testando o carregamento dos widgets da tela.', () {
+      testWidgets('Deve ser exibido o texto de inicio corretamente na tela.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
 
-      expect(welcomeText, findsOneWidget);
+        final welcomeText = find.byKey(Key('welcome_text'));
+
+        expect(welcomeText, findsOneWidget);
+      });
+
+      testWidgets(
+          'Deve ser exibido o texto de instruções corretamente na tela.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
+
+        final registerText = find.byKey(Key('register_text'));
+
+        expect(registerText, findsOneWidget);
+      });
+
+      testWidgets('Deve ser exibido o campo de nome corretamente na tela.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
+
+        final nameField = find.byKey(Key('name_field'));
+
+        expect(nameField, findsOneWidget);
+      });
+
+      testWidgets('Deve ser exibido o campo de email corretamente na tela.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
+
+        final emailField = find.byKey(Key('email_field'));
+
+        expect(emailField, findsOneWidget);
+      });
+
+      testWidgets('Deve ser exibido o campo de senha corretamente na tela.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
+
+        final passwordField = find.byKey(Key('password_field'));
+
+        expect(passwordField, findsOneWidget);
+      });
+
+      testWidgets('Deve ser exibido o botão de cadastrar corretamente na tela.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
+
+        final registerButton = find.byKey(Key('register_button'));
+
+        expect(registerButton, findsOneWidget);
+      });
+
+      testWidgets(
+          'Deve ser exibido o botão de ir para o login corretamente na tela.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
+
+        final haveAccountButton = find.byKey(Key('have_account_button'));
+
+        expect(haveAccountButton, findsOneWidget);
+      });
     });
 
-    testWidgets('Deve ser exibido o texto de instruções corretamente na tela.',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: RegisterScreen(),
-        ),
-      );
+    group('Testando o funcionamento do registro.', () {
+      testWidgets('Deve funcionar corretamente o registro.', (tester) async {
+        final mockObserver = MockNavigatorObserver();
 
-      final registerText = find.byKey(Key('register_text'));
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+            navigatorObservers: [mockObserver],
+          ),
+        );
 
-      expect(registerText, findsOneWidget);
-    });
+        final nameField = find.byKey(Key('name_field'));
+        final emailField = find.byKey(Key('email_field'));
+        final passwordField = find.byKey(Key('password_field'));
+        final registerButton = find.byKey(Key('register_button'));
 
-    testWidgets('Deve ser exibido o campo de nome corretamente na tela.',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: RegisterScreen(),
-        ),
-      );
+        await tester.enterText(nameField, 'Pedro Pereira Guimarães');
+        await tester.enterText(emailField, 'pedro@email.com');
+        await tester.enterText(passwordField, '123456');
+        await tester.pumpAndSettle();
 
-      final nameField = find.byKey(Key('name_field'));
+        await tester.tap(registerButton);
+        await tester.pumpAndSettle();
 
-      expect(nameField, findsOneWidget);
-    });
+        expect(mockObserver.pushedRoutes.length, greaterThan(0));
+      });
 
-    testWidgets('Deve ser exibido o campo de email corretamente na tela.',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: RegisterScreen(),
-        ),
-      );
+      testWidgets(
+          'Deve pedir que o usuario coloque o nome, o email e a senha ao clicar no botão de cadastro com os campos vazios.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
 
-      final emailField = find.byKey(Key('email_field'));
+        final nameField = find.byKey(Key('name_field'));
+        final emailField = find.byKey(Key('email_field'));
+        final passwordField = find.byKey(Key('password_field'));
+        final registerButton = find.byKey(Key('register_button'));
 
-      expect(emailField, findsOneWidget);
-    });
+        await tester.enterText(nameField, '');
+        await tester.enterText(emailField, '');
+        await tester.enterText(passwordField, '');
+        await tester.pumpAndSettle();
 
-    testWidgets('Deve ser exibido o campo de senha corretamente na tela.',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: RegisterScreen(),
-        ),
-      );
+        await tester.tap(registerButton);
+        await tester.pumpAndSettle();
 
-      final passwordField = find.byKey(Key('password_field'));
+        expect(find.text('Coloque seu nome, por favor'), findsOne);
+        expect(find.text('Coloque seu email, por favor'), findsOne);
+        expect(find.text('Coloque sua senha, por favor'), findsOne);
+      });
 
-      expect(passwordField, findsOneWidget);
-    });
+      testWidgets(
+          'Deve pedir que o usuario coloque o email corretamente ao digitar um email inválido.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: RegisterScreen(),
+          ),
+        );
 
-    testWidgets('Deve ser exibido o botão de cadastrar corretamente na tela.',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: RegisterScreen(),
-        ),
-      );
+        final nameField = find.byKey(Key('name_field'));
+        final emailField = find.byKey(Key('email_field'));
+        final passwordField = find.byKey(Key('password_field'));
+        final registerButton = find.byKey(Key('register_button'));
 
-      final registerButton = find.byKey(Key('register_button'));
+        await tester.enterText(nameField, 'Pedro Pereira Guimarães');
+        await tester.enterText(emailField, 'teste@email');
+        await tester.enterText(passwordField, '123456');
+        await tester.pumpAndSettle();
 
-      expect(registerButton, findsOneWidget);
-    });
+        await tester.tap(registerButton);
+        await tester.pumpAndSettle();
 
-    testWidgets(
-        'Deve ser exibido o botão de ir para o login corretamente na tela.',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: RegisterScreen(),
-        ),
-      );
-
-      final haveAccountButton = find.byKey(Key('have_account_button'));
-
-      expect(haveAccountButton, findsOneWidget);
+        expect(find.text('Coloque um email válido, por favor'), findsOne);
+      });
     });
   });
 }
