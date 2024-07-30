@@ -38,7 +38,7 @@ class UserService {
   }
 
   Future<String> signUpEmailPassword(
-      String name, String register, String password, String email) async {
+      String name, String password, String email) async {
     final url = Uri.parse('$path/user/create');
 
     final headers = {
@@ -49,7 +49,6 @@ class UserService {
       "name": name,
       "email": email,
       "password": password,
-      "register_": register,
     });
 
     try {

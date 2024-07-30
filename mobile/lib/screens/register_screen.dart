@@ -15,17 +15,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   UserService userService = UserService();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _registerController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   String? _emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Por favor, insira um email';
+      return 'Coloque seu email, por favor';
     }
     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
     if (!emailRegex.hasMatch(value)) {
-      return 'Por favor, insira um email válido';
+      return 'Coloque um email válido, por favor';
     }
     return null;
   }
@@ -35,9 +34,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       String name = _nameController.text;
       String email = _emailController.text;
       String password = _passwordController.text;
-      String register = _registerController.text;
       try {
-        await userService.signUpEmailPassword(name, register, password, email);
+        await userService.signUpEmailPassword(name, password, email);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -45,7 +43,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         );
       } catch (e) {
-        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Register failed: ${e.toString()}')),
         );
@@ -56,118 +53,121 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(48.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      key: Key("welcome_text"),
-                      'Olá!',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w900,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 86),
+        child: Padding(
+          padding: const EdgeInsets.all(48.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        key: Key("welcome_text"),
+                        'Olá!',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      Text(
+                        key: Key("register_text"),
+                        'Cadastre-se para continuar.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 24),
+                Container(
+                  child: TextFormField(
+                    key: Key("name_field"),
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Nome completo',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    Text(
-                      key: Key("register_text"),
-                      'Cadastre-se para continuar.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Coloque seu nome, por favor';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                SizedBox(height: 24),
+                Container(
+                  child: TextFormField(
+                    key: Key("email_field"),
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: TextFormField(
-                  key: Key("name_field"),
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    labelText: 'Nome completo',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    validator: _emailValidator,
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Coloque seu nome, por favor';
-                    }
-                    return null;
+                ),
+                SizedBox(height: 24),
+                Container(
+                  child: TextFormField(
+                    key: Key("password_field"),
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Coloque sua senha, por favor';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                SizedBox(height: 24),
+                OutlinedButton(
+                  key: Key("register_button"),
+                  onPressed: _register,
+                  child: Text('CADASTRAR'),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 56),
+                    maximumSize: Size(double.infinity, 56),
+                  ),
+                ),
+                SizedBox(height: 12),
+                GestureDetector(
+                  key: Key("have_account_button"),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
                   },
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: TextFormField(
-                  key: Key("email_field"),
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                  child: Text(
+                    'Já tenho uma conta',
+                    style: TextStyle(
+                      fontSize: 14,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
-                  validator: _emailValidator,
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: TextFormField(
-                  key: Key("password_field"),
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Coloque sua senha, por favor';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(height: 24),
-              OutlinedButton(
-                key: Key("register_button"),
-                onPressed: _register,
-                child: Text('CADASTRAR'),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 56),
-                  maximumSize: Size(double.infinity, 56),
-                ),
-              ),
-              SizedBox(height: 12),
-              GestureDetector(
-                key: Key("have_account_button"),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
-                  );
-                },
-                child: Text(
-                  'Já tenho uma conta',
-                  style: TextStyle(
-                    fontSize: 14,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
