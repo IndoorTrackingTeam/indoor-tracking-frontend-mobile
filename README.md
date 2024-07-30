@@ -1,12 +1,20 @@
-# Sonar Scan Status
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend)
+# Indoor Tracking
+
+<p align="center">
+  <img src="assets/logo.png" alt="Logo" width="300" height="300">
+</p>
+
+<p align="center">
+  <a href="https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=alert_status" alt="Quality Gate Status">
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=bugs" alt="Bugs">
+  </a>
+  <a href="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml">
+    <img src="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml/badge.svg" alt="Flutter Tests">
+  </a>
+</p>
 
 # Padrões de Commits
 
