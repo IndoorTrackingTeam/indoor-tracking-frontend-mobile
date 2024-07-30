@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/api/user_service.dart';
 import 'package:mobile/screens/equipaments_screen.dart';
+import 'package:mobile/screens/password_screen.dart';
 import 'package:mobile/screens/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +33,17 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  String? _emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, insira um email';
+    }
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Por favor, insira um email válido';
+    }
+    return null;
   }
 
   Future<void> _login() async {
@@ -108,12 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Coloque seu email, por favor';
-                    }
-                    return null;
-                  },
+                  validator: _emailValidator,
                 ),
               ),
               SizedBox(height: 24),
@@ -155,7 +162,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   GestureDetector(
                     key: Key("forgot_password_key"),
                     onTap: () {
-                      print("Clicado.");
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PasswordScreen(),
+                        ),
+                      );
                     },
                     child: Text(
                       'Esqueceu a senha?',

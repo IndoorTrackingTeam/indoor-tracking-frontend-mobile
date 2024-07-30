@@ -19,6 +19,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String? _emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, insira um email';
+    }
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Por favor, insira um email válido';
+    }
+    return null;
+  }
+
   Future<void> _register() async {
     if (_formKey.currentState?.validate() ?? false) {
       String name = _nameController.text;
@@ -102,12 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Coloque seu email, por favor';
-                    }
-                    return null;
-                  },
+                  validator: _emailValidator,
                 ),
               ),
               SizedBox(height: 24),
