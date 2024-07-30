@@ -16,7 +16,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarcloudmobile:
+  sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
     environment: frontend
