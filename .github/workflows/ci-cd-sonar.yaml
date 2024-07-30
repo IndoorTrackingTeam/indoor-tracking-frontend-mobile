@@ -1,9 +1,11 @@
 name: Build scan Sonar
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+      - development
   pull_request:
     types: [opened, synchronize, reopened]
 

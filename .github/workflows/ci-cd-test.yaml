@@ -2,12 +2,12 @@ name: Flutter Tests
 
 on:
   workflow_dispatch:
-  pull_request:
-    types: [opened, synchronize, reopened]
   push:
     branches:
       - main
       - development
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
