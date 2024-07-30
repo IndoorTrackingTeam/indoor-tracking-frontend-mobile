@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 24),
               Container(
                 child: TextFormField(
-                  key: Key("email_key"),
+                  key: Key("email_field"),
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 24),
               Container(
                 child: TextFormField(
-                  key: Key("password_key"),
+                  key: Key("password_field"),
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Senha',

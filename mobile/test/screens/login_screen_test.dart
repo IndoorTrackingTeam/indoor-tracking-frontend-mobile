@@ -25,9 +25,9 @@ void main() {
         ),
       );
 
-      final emailKey = find.byKey(Key('email_key'));
+      final emailField = find.byKey(Key('email_field'));
 
-      expect(emailKey, findsOneWidget);
+      expect(emailField, findsOneWidget);
     });
 
     testWidgets('Deve ser exibido o campo de senha corretamente na tela.',
@@ -38,9 +38,9 @@ void main() {
         ),
       );
 
-      final passwordKey = find.byKey(Key('password_key'));
+      final passwordField = find.byKey(Key('password_field'));
 
-      expect(passwordKey, findsOneWidget);
+      expect(passwordField, findsOneWidget);
     });
 
     testWidgets(
@@ -66,9 +66,9 @@ void main() {
         ),
       );
 
-      final forgotPasswordKey = find.byKey(Key('forgot_password_key'));
+      final forgotPasswordField = find.byKey(Key('forgot_password_key'));
 
-      expect(forgotPasswordKey, findsOneWidget);
+      expect(forgotPasswordField, findsOneWidget);
     });
 
     testWidgets('Deve ser exibido o botão de login corretamente na tela.',
@@ -109,12 +109,12 @@ void main() {
         ),
       );
 
-      final emailKey = find.byKey(Key('email_key'));
-      final passwordKey = find.byKey(Key('email_key'));
+      final emailField = find.byKey(Key('email_field'));
+      final passwordField = find.byKey(Key('password_field'));
       final loginButton = find.byKey(Key('login_button'));
 
-      await tester.enterText(emailKey, 'pedro@email');
-      await tester.enterText(passwordKey, '123456');
+      await tester.enterText(emailField, 'pedro@email');
+      await tester.enterText(passwordField, '123456');
       await tester.pumpAndSettle();
 
       await tester.tap(loginButton);
@@ -135,12 +135,12 @@ void main() {
         ),
       );
 
-      final emailKey = find.byKey(Key('email_key'));
-      final passwordKey = find.byKey(Key('email_key'));
+      final emailField = find.byKey(Key('email_field'));
+      final passwordField = find.byKey(Key('password_field'));
       final loginButton = find.byKey(Key('login_button'));
 
-      await tester.enterText(emailKey, 'pedro@email.com');
-      await tester.enterText(passwordKey, '123456');
+      await tester.enterText(emailField, 'pedro@email.com');
+      await tester.enterText(passwordField, '123456');
       await tester.pumpAndSettle();
 
       await tester.tap(loginButton);
@@ -161,12 +161,12 @@ void main() {
         ),
       );
 
-      final emailKey = find.byKey(Key('email_key'));
-      final passwordKey = find.byKey(Key('email_key'));
+      final emailField = find.byKey(Key('email_field'));
+      final passwordField = find.byKey(Key('password_field'));
       final loginButton = find.byKey(Key('login_button'));
 
-      await tester.enterText(emailKey, 'pedro@email');
-      await tester.enterText(passwordKey, '654321');
+      await tester.enterText(emailField, 'pedro@email');
+      await tester.enterText(passwordField, '654321');
       await tester.pumpAndSettle();
 
       await tester.tap(loginButton);
@@ -184,12 +184,12 @@ void main() {
         ),
       );
 
-      final emailKey = find.byKey(Key('email_key'));
-      final passwordKey = find.byKey(Key('email_key'));
+      final emailField = find.byKey(Key('email_field'));
+      final passwordField = find.byKey(Key('password_field'));
       final loginButton = find.byKey(Key('login_button'));
 
-      await tester.enterText(emailKey, '');
-      await tester.enterText(passwordKey, '');
+      await tester.enterText(emailField, '');
+      await tester.enterText(passwordField, '');
       await tester.pumpAndSettle();
 
       await tester.tap(loginButton);
