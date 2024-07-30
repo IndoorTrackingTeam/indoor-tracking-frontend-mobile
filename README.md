@@ -8,6 +8,9 @@
   <a href="https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend">
     <img src="https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=alert_status" alt="Quality Gate Status">
   </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=bugss" alt="Bugs">
+  </a>
   <a href="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml">
     <img src="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml/badge.svg" alt="Flutter Tests">
   </a>
