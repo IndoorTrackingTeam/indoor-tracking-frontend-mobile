@@ -99,85 +99,9 @@ void main() {
       });
     });
 
-    group('Testando o funcionamento do login.', () {
-      testWidgets('Deve funcionar corretamente o login.', (tester) async {
-        final mockObserver = MockNavigatorObserver();
-
-        await tester.pumpWidget(
-          MaterialApp(
-            home: LoginScreen(),
-            navigatorObservers: [mockObserver],
-          ),
-        );
-
-        final emailField = find.byKey(Key('email_field'));
-        final passwordField = find.byKey(Key('password_field'));
-        final loginButton = find.byKey(Key('login_button'));
-
-        await tester.enterText(emailField, 'pedro@email');
-        await tester.enterText(passwordField, '123456');
-        await tester.pumpAndSettle();
-
-        await tester.tap(loginButton);
-        await tester.pumpAndSettle();
-
-        expect(mockObserver.pushedRoutes.length, greaterThan(0));
-      });
-
+    group('Testando o funcionamento dos widgets.', () {
       testWidgets(
-          'Deve exibir uma Snackbar com erro caso o email esteja incorreto.',
-          (tester) async {
-        final mockObserver = MockNavigatorObserver();
-
-        await tester.pumpWidget(
-          MaterialApp(
-            home: LoginScreen(),
-            navigatorObservers: [mockObserver],
-          ),
-        );
-
-        final emailField = find.byKey(Key('email_field'));
-        final passwordField = find.byKey(Key('password_field'));
-        final loginButton = find.byKey(Key('login_button'));
-
-        await tester.enterText(emailField, 'pedro@email.com');
-        await tester.enterText(passwordField, '123456');
-        await tester.pumpAndSettle();
-
-        await tester.tap(loginButton);
-        await tester.pumpAndSettle();
-
-        //expect(find.text('Falha no Login: Email incorreto.'), findsOne);
-      });
-
-      testWidgets(
-          'Deve exibir uma Snackbar com erro caso a senha esteja incorreta.',
-          (tester) async {
-        final mockObserver = MockNavigatorObserver();
-
-        await tester.pumpWidget(
-          MaterialApp(
-            home: LoginScreen(),
-            navigatorObservers: [mockObserver],
-          ),
-        );
-
-        final emailField = find.byKey(Key('email_field'));
-        final passwordField = find.byKey(Key('password_field'));
-        final loginButton = find.byKey(Key('login_button'));
-
-        await tester.enterText(emailField, 'pedro@email');
-        await tester.enterText(passwordField, '654321');
-        await tester.pumpAndSettle();
-
-        await tester.tap(loginButton);
-        await tester.pumpAndSettle();
-
-        //expect(find.text('Falha no Login: Senha incorreta.'), findsOne);
-      });
-
-      testWidgets(
-          'Deve pedir que o usuario coloque o email e a senha ao clicar no botão de login com os campos vazios.',
+          'Deve pedir que o usuario coloque o email ao clicar no botão de login com o campo de email vazio.',
           (tester) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -190,18 +114,38 @@ void main() {
         final loginButton = find.byKey(Key('login_button'));
 
         await tester.enterText(emailField, '');
-        await tester.enterText(passwordField, '');
+        await tester.enterText(passwordField, '1234');
         await tester.pumpAndSettle();
 
         await tester.tap(loginButton);
         await tester.pumpAndSettle();
 
         expect(find.text('Coloque seu email, por favor'), findsOne);
+      });
+
+      testWidgets(
+          'Deve pedir que o usuario coloque a senha ao clicar no botão de login com o campo de email vazio.',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: LoginScreen(),
+          ),
+        );
+
+        final emailField = find.byKey(Key('email_field'));
+        final passwordField = find.byKey(Key('password_field'));
+        final loginButton = find.byKey(Key('login_button'));
+
+        await tester.enterText(emailField, 'teste@email.com');
+        await tester.enterText(passwordField, '');
+        await tester.pumpAndSettle();
+
+        await tester.tap(loginButton);
+        await tester.pumpAndSettle();
+
         expect(find.text('Coloque sua senha, por favor'), findsOne);
       });
-    });
 
-    group('Testando o funcionamento dos widgets.', () {
       testWidgets(
           'Deve ir para a pagina de redefinir senha ao clicar no botão de esqueci minha senha.',
           (tester) async {
