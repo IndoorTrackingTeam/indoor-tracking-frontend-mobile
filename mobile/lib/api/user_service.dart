@@ -27,13 +27,10 @@ class UserService {
         final oid = responseData['_id']['\$oid'];
         return oid;
       } else {
-        final errorMessage =
-            jsonDecode(response.body)['message'] ?? 'Unknown error';
-        throw Exception('Failed to authenticate: $errorMessage');
+        throw Exception(jsonDecode(response.body)['param']);
       }
     } catch (e) {
-      throw Exception(
-          'An error occurred while authenticating: ${e.toString()}');
+      throw Exception(e.toString());
     }
   }
 
@@ -60,13 +57,10 @@ class UserService {
       if (response.statusCode == 201) {
         return 'Success';
       } else {
-        final errorMessage =
-            jsonDecode(response.body)['message'] ?? 'Unknown error';
-        throw Exception('Failed to register user: $errorMessage');
+        throw Exception(jsonDecode(response.body)['detail']);
       }
     } catch (e) {
-      throw Exception(
-          'An error occurred while registering user: ${e.toString()}');
+      throw Exception(e.toString());
     }
   }
 }
