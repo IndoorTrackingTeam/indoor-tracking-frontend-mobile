@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _isLoggedIn = false;
+  bool _isLoading = false;
   String _token = '';
 
   @override
@@ -48,6 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _isLoading = true;
+      });
       String email = _emailController.text;
       String password = _passwordController.text;
       try {
@@ -60,9 +64,33 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: ${e.toString()}')),
-        );
+        if (e.toString().contains('email')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Email não encontrado.'),
+              backgroundColor: const Color.fromARGB(255, 143, 20, 11),
+            ),
+          );
+        } else if (e.toString().contains('password')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Senha incorreta.'),
+              backgroundColor: const Color.fromARGB(255, 143, 20, 11),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                  'Erro desconhecido: $e. Por favor, entre em contato com o suporte.'),
+              backgroundColor: Color.fromARGB(255, 214, 177, 10),
+            ),
+          );
+        }
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -80,97 +108,128 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(48.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Olá novamente!',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    Text(
-                      'Seja bem-vindo.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: TextFormField(
-                  key: Key("email_field"),
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  validator: _emailValidator,
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                child: TextFormField(
-                  key: Key("password_field"),
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Coloque sua senha, por favor';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Row(
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(48.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Checkbox(
-                    key: Key("remember_me_key"),
-                    value: _rememberMe,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _rememberMe = value ?? false;
-                      });
-                    },
-                    side: BorderSide(width: 1),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Olá novamente!',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          'Seja bem-vindo.',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    'Lembrar de mim',
+                  SizedBox(height: 24),
+                  Container(
+                    child: TextFormField(
+                      key: Key("email_field"),
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      validator: _emailValidator,
+                    ),
                   ),
-                  Spacer(),
+                  SizedBox(height: 24),
+                  Container(
+                    child: TextFormField(
+                      key: Key("password_field"),
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Senha',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Coloque sua senha, por favor';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        key: Key("remember_me_key"),
+                        value: _rememberMe,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _rememberMe = value ?? false;
+                          });
+                        },
+                        side: BorderSide(width: 1),
+                      ),
+                      Text(
+                        'Lembrar de mim',
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        key: Key("forgot_password_key"),
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PasswordScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Esqueceu a senha?',
+                          style: TextStyle(
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  OutlinedButton(
+                    key: Key("login_button"),
+                    onPressed: _login,
+                    child: Text('LOGIN'),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 56),
+                      maximumSize: Size(double.infinity, 56),
+                    ),
+                  ),
+                  SizedBox(height: 12),
                   GestureDetector(
-                    key: Key("forgot_password_key"),
+                    key: Key("register_button"),
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PasswordScreen(),
-                        ),
+                            builder: (context) => RegisterScreen()),
                       );
                     },
                     child: Text(
-                      'Esqueceu a senha?',
+                      'Não tem uma conta? Registre-se',
                       style: TextStyle(
                         fontSize: 14,
                         decoration: TextDecoration.underline,
@@ -179,35 +238,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ],
               ),
-              OutlinedButton(
-                key: Key("login_button"),
-                onPressed: _login,
-                child: Text('LOGIN'),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 56),
-                  maximumSize: Size(double.infinity, 56),
-                ),
-              ),
-              SizedBox(height: 12),
-              GestureDetector(
-                key: Key("register_button"),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
-                  );
-                },
-                child: Text(
-                  'Não tem uma conta? Registre-se',
-                  style: TextStyle(
-                    fontSize: 14,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
-        ),
+          if (_isLoading)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }
