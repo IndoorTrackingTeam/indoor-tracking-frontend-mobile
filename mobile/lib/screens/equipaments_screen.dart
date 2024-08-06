@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/api/equipament_service.dart';
 import 'package:mobile/widgets/bottom_navbar.dart';
@@ -46,8 +47,8 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
                 itemCount: equipaments.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () =>
-                        _showEquipamentDetails(context, equipaments[index]),
+                    onTap: () => _getEquipamentsHistoric(
+                        context, equipamentService, equipaments[index]),
                     child: cardEquipament(context, equipaments[index]),
                   );
                 },
@@ -94,14 +95,14 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
               Text(
                 equipament['name'].toUpperCase(),
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 14,
                   color: Color(0xFFF2F2F2),
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 5),
               Text(
-                "Sala 14 - Prótese".toUpperCase(),
+                'Sala ${equipament['c_room'].toUpperCase()}',
                 style: TextStyle(
                   fontSize: 12,
                   color: Color(0xFFF2F2F2),
@@ -137,7 +138,7 @@ Widget textEquipament(String text) {
       borderRadius: BorderRadius.circular(10),
     ),
     child: Text(
-      text.toUpperCase(),
+      text,
       style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
@@ -147,7 +148,61 @@ Widget textEquipament(String text) {
   );
 }
 
-void _showEquipamentDetails(BuildContext context, dynamic equipament) {
+Widget textEquipamentHistoric(String room, String date) {
+  return Container(
+    width: double.infinity,
+    height: 50,
+    margin: EdgeInsets.only(bottom: 10),
+    padding: EdgeInsets.symmetric(horizontal: 20),
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      color: Color(0xFFFFFFFF),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              room,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2D2D2D),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              date,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2D2D2D),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Future<void> _getEquipamentsHistoric(BuildContext context,
+    EquipamentService equipamentService, dynamic equipament) async {
+  Map<String, dynamic> data =
+      await equipamentService.getOneEquipament(equipament['register']);
+  _showEquipamentDetails(context, equipament, data);
+}
+
+void _showEquipamentDetails(
+    BuildContext context, dynamic equipament, Map<String, dynamic> data) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -195,9 +250,10 @@ void _showEquipamentDetails(BuildContext context, dynamic equipament) {
                     ],
                   ),
                   Divider(),
-                  textEquipament(equipament['name']),
-                  textEquipament(equipament['maintenance'].toString()),
-                  textEquipament(equipament['maintenance'].toString()),
+                  textEquipament(equipament['name'].toUpperCase()),
+                  textEquipament(equipament['register'].toString()),
+                  textEquipament(
+                      "Ultima vez visto na sala ${equipament['c_room']}"),
                 ],
               ),
             ),
@@ -220,10 +276,15 @@ void _showEquipamentDetails(BuildContext context, dynamic equipament) {
                   Divider(),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: 5,
+                      itemCount: (data['historic'] ?? []).length,
                       itemBuilder: (context, index) {
-                        return textEquipament(
-                          "equipamento",
+                        var initialDate = DateTime.parse(
+                            data['historic'][index]['initial_date']);
+                        var formattedDate =
+                            DateFormat('HH:mm dd/MM/yyyy').format(initialDate);
+                        return textEquipamentHistoric(
+                          'Sala ${data['historic'][index]['room']}',
+                          formattedDate,
                         );
                       },
                     ),

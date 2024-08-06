@@ -24,8 +24,8 @@ class UserService {
       );
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        final oid = responseData['_id']['\$oid'];
-        return oid;
+        final id = responseData['_id'];
+        return id;
       } else {
         throw Exception(jsonDecode(response.body)['param']);
       }
