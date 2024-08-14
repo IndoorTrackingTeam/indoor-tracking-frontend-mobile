@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/screens/login_screen.dart';
+import 'package:indoortracking/screens/login_screen.dart';
 
 class MockNavigatorObserver extends NavigatorObserver {
   List<Route> pushedRoutes = [];

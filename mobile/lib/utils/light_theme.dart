@@ -84,24 +84,24 @@ ThemeData light = ThemeData(
     ),
   ),
   colorScheme: ColorScheme.light(
-    primary: Color(0xFF298C4C),
+    primary: Color(0xFF394170),
     secondary: Color(0xFF0D2B17),
-    surface: Color(0xFFF2F2F2),
+    surface: Color(0xFFF5F7F8),
     onSurface: Color(0xFF2D2D2D),
   ),
-  scaffoldBackgroundColor: Color(0xFFF2F2F2),
+  scaffoldBackgroundColor: Color(0xFFF5F7F8),
   appBarTheme: AppBarTheme(
-    backgroundColor: Color(0xFF298C4C),
+    backgroundColor: Color(0xFF394170),
     titleTextStyle: GoogleFonts.play(
-      color: Color(0xFFF2F2F2),
+      color: Color(0xFFF5F7F8),
       fontSize: 20,
       fontWeight: FontWeight.normal,
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      foregroundColor: Color(0xFF298C4C),
-      backgroundColor: Color(0xFFF2F2F2),
+      foregroundColor: Color(0xFF394170),
+      backgroundColor: Color(0xFFF5F7F8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -109,9 +109,9 @@ ThemeData light = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      foregroundColor: Color(0xFFF2F2F2),
-      backgroundColor: Color(0xFF298C4C),
-      side: BorderSide(color: Color(0xFFF2F2F2)),
+      foregroundColor: Color(0xFFF5F7F8),
+      backgroundColor: Color(0xFF394170),
+      side: BorderSide(color: Color(0xFFF5F7F8)),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -119,8 +119,8 @@ ThemeData light = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: Color(0xFFF2F2F2),
-      backgroundColor: Color(0xFF298C4C),
+      foregroundColor: Color(0xFFF5F7F8),
+      backgroundColor: Color(0xFF394170),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -130,7 +130,7 @@ ThemeData light = ThemeData(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(
-        color: Color(0xFFF2F2F2),
+        color: Color(0xFFF5F7F8),
         width: 0,
       ),
     ),
@@ -142,7 +142,7 @@ ThemeData light = ThemeData(
   ),
   checkboxTheme: CheckboxThemeData(
     checkColor: MaterialStateProperty.resolveWith<Color?>(
-      (states) => Color(0xFFF2F2F2),
+      (states) => Color(0xFFF5F7F8),
     ),
   ),
 );

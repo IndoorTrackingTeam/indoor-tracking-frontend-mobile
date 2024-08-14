@@ -2,8 +2,8 @@
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/api/equipament_service.dart';
-import 'package:mobile/widgets/bottom_navbar.dart';
+import 'package:indoortracking/api/equipament_service.dart';
+import 'package:indoortracking/widgets/bottom_navbar.dart';
 
 class EquipamentsScreen extends StatefulWidget {
   final String _token;
@@ -62,7 +62,7 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
 Widget cardEquipament(BuildContext context, dynamic equipament) {
   return Container(
     decoration: BoxDecoration(
-        color: Color(0xFF298C4C), borderRadius: BorderRadius.circular(10)),
+        color: Color(0xFF394170), borderRadius: BorderRadius.circular(10)),
     margin: EdgeInsets.only(bottom: 10),
     child: Row(
       children: [
@@ -87,7 +87,7 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
         ),
         SizedBox(width: 20),
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -111,22 +111,12 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
             ],
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Color(0xFFF2F2F2),
-            ),
-          ),
-        ),
       ],
     ),
   );
 }
 
-Widget textEquipament(String text) {
+Widget textEquipament(String text, BuildContext context) {
   return Container(
     width: double.infinity,
     height: 50,
@@ -134,7 +124,9 @@ Widget textEquipament(String text) {
     padding: EdgeInsets.symmetric(horizontal: 20),
     alignment: Alignment.centerLeft,
     decoration: BoxDecoration(
-      color: Color(0xFFFFFFFF),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF2D2D2D)
+          : Color(0xFFFFFFFF),
       borderRadius: BorderRadius.circular(10),
     ),
     child: Text(
@@ -142,13 +134,15 @@ Widget textEquipament(String text) {
       style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
-        color: Color(0xFF2D2D2D),
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFFF5F7F8)
+            : Color(0xFF2D2D2D),
       ),
     ),
   );
 }
 
-Widget textEquipamentHistoric(String room, String date) {
+Widget textEquipamentHistoric(String room, String date, BuildContext context) {
   return Container(
     width: double.infinity,
     height: 50,
@@ -156,7 +150,9 @@ Widget textEquipamentHistoric(String room, String date) {
     padding: EdgeInsets.symmetric(horizontal: 20),
     alignment: Alignment.center,
     decoration: BoxDecoration(
-      color: Color(0xFFFFFFFF),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF2D2D2D)
+          : Color(0xFFFFFFFF),
       borderRadius: BorderRadius.circular(10),
     ),
     child: Row(
@@ -170,7 +166,9 @@ Widget textEquipamentHistoric(String room, String date) {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF2D2D2D),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Color(0xFFF5F7F8)
+                    : Color(0xFF2D2D2D),
               ),
             ),
           ),
@@ -196,6 +194,7 @@ Widget textEquipamentHistoric(String room, String date) {
 
 Future<void> _getEquipamentsHistoric(BuildContext context,
     EquipamentService equipamentService, dynamic equipament) async {
+  print(equipament);
   Map<String, dynamic> data =
       await equipamentService.getOneEquipament(equipament['register']);
   _showEquipamentDetails(context, equipament, data);
@@ -212,7 +211,9 @@ void _showEquipamentDetails(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 150),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: Color(0xFFF2F2F2),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Color(0xFF1D1D1D)
+              : Color(0xFFF5F7F8),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -250,10 +251,11 @@ void _showEquipamentDetails(
                     ],
                   ),
                   Divider(),
-                  textEquipament(equipament['name'].toUpperCase()),
-                  textEquipament(equipament['register'].toString()),
+                  textEquipament(equipament['name'].toUpperCase(), context),
+                  textEquipament(equipament['register'].toString(), context),
                   textEquipament(
-                      "Ultima vez visto na sala ${equipament['c_room']}"),
+                      "Ultima vez visto na sala ${equipament['c_room']}",
+                      context),
                 ],
               ),
             ),
@@ -285,6 +287,7 @@ void _showEquipamentDetails(
                         return textEquipamentHistoric(
                           'Sala ${data['historic'][index]['room']}',
                           formattedDate,
+                          context,
                         );
                       },
                     ),

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/screens/register_screen.dart';
+import 'package:indoortracking/screens/register_screen.dart';
 
 import 'login_screen_test.dart';
 
