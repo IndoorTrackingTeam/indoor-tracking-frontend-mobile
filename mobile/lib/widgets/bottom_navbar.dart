@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names
 
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/equipaments_screen.dart';
-import 'package:mobile/screens/settings_screen.dart';
+import 'package:indoortracking/screens/equipaments_screen.dart';
+import 'package:indoortracking/screens/settings_screen.dart';
 
 Widget Navbar(BuildContext context, String token, int index) {
   return Container(
@@ -12,16 +12,8 @@ Widget Navbar(BuildContext context, String token, int index) {
         : const EdgeInsets.only(left: 5, right: 10, top: 10, bottom: 10),
     height: 80,
     decoration: BoxDecoration(
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 1,
-          blurRadius: 7,
-          offset: const Offset(2, 3),
-        ),
-      ],
       borderRadius: BorderRadius.circular(10),
-      color: Color(0xFF298C4C),
+      color: Color(0xFF394170),
     ),
     child: index == 0
         ? Row(
@@ -43,15 +35,30 @@ Widget Navbar(BuildContext context, String token, int index) {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: Color(0xFFF2F2F2),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Color(0xFF2D2D2D)
+                            : Color(0xFFFFFFFF),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.assessment, color: Color(0xFF298C4C)),
+                          Icon(
+                            Icons.assessment,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Color(0xFFF5F7F8)
+                                    : Color(0xFF394170),
+                          ),
                           SizedBox(width: 10),
-                          const Text('Equipamentos',
-                              style: TextStyle(color: Color(0xFF298C4C))),
+                          Text(
+                            'Equipamentos',
+                            style: TextStyle(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Color(0xFFF5F7F8)
+                                  : Color(0xFF394170),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -59,7 +66,10 @@ Widget Navbar(BuildContext context, String token, int index) {
               Expanded(
                 flex: 1,
                 child: IconButton(
-                  icon: const Icon(Icons.settings, color: Color(0xFFF2F2F2)),
+                  icon: Icon(
+                    Icons.settings,
+                    color: Color(0xFFF5F7F8),
+                  ),
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
@@ -105,14 +115,28 @@ Widget Navbar(BuildContext context, String token, int index) {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Color(0xFFF2F2F2),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Color(0xFF2D2D2D)
+                          : Color(0xFFF5F7F8),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.settings, color: Color(0xFF298C4C)),
+                        Icon(
+                          Icons.settings,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Color(0xFFF5F7F8)
+                              : Color(0xFF394170),
+                        ),
                         SizedBox(width: 10),
-                        const Text('Configurações',
-                            style: TextStyle(color: Color(0xFF298C4C))),
+                        Text(
+                          'Configurações',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Color(0xFFF5F7F8)
+                                    : Color(0xFF394170),
+                          ),
+                        ),
                       ],
                     ),
                   ),

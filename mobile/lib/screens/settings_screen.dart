@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/login_screen.dart';
-import 'package:mobile/widgets/bottom_navbar.dart';
+import 'package:indoortracking/screens/login_screen.dart';
+import 'package:indoortracking/widgets/bottom_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -14,7 +14,71 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
+  Future<void> _confirmLogout() async {
+    bool? shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Confirmar Logout',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFFF5F7F8)
+                  : Color(0xFF2D2D2D),
+            ),
+          ),
+          content: Text(
+            'Você realmente deseja sair do aplicativo?',
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFFF5F7F8)
+                  : Color(0xFF2D2D2D),
+            ),
+          ),
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? Color(0xFF2D2D2D)
+              : Color(0xFFF5F7F8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Color(0xFFF5F7F8),
+                ),
+              ),
+              child: Text(
+                'Cancelar',
+                style: TextStyle(
+                  color: Color(0xFF2D2D2D),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Color.fromARGB(255, 143, 20, 11),
+                ),
+              ),
+              child: Text('Sair'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldLogout == true) {
+      _logout();
+    }
+  }
 
   Future<void> _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,7 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   fit: BoxFit.fill,
                 ),
                 border: Border.all(
-                  color: Color(0xFF298C4C),
+                  color: Color(0xFF394170),
                   width: 5,
                 ),
               ),
@@ -58,45 +122,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Text('Editar'),
             ),
             SizedBox(height: 16),
-            SwitchListTile(
-              title: Text('Ativar notificações'),
-              value: _notificationsEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _notificationsEnabled = value;
-                });
-              },
-              activeColor: Color(0xFF298C4C),
-              tileColor: Color(0xFFFFFFFF),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            SizedBox(height: 10),
             ListTile(
-              title: Text('Redefinir senha'),
+              title: Text(
+                'Redefinir senha',
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Color(0xFFF5F7F8)
+                      : Color(0xFF2D2D2D),
+                ),
+              ),
               onTap: () {},
-              tileColor: Color(0xFFFFFFFF),
+              tileColor: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFF2D2D2D)
+                  : Color(0xFFFFFFFF),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
             SizedBox(height: 10),
             ListTile(
-              title: Text('Mudar idioma'),
-              onTap: () {},
-              tileColor: Color(0xFFFFFFFF),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+              title: Text(
+                'Sair do aplicativo',
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Color(0xFFF5F7F8)
+                      : Color(0xFF2D2D2D),
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            ListTile(
-              title: Text('Sair do aplicativo'),
               onTap: () {
-                _logout();
+                _confirmLogout();
               },
-              tileColor: Color(0xFFFFFFFF),
+              tileColor: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFF2D2D2D)
+                  : Color(0xFFFFFFFF),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),

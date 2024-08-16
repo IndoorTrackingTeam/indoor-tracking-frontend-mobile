@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-const String path = 'https://run-api-viicaovoda-ue.a.run.app';
+const String path = 'https://run-api-prod-viicaovoda-ue.a.run.app';
 
 class UserService {
   Future<String> signInEmailPassword(String email, String password) async {
@@ -24,16 +24,13 @@ class UserService {
       );
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        final oid = responseData['_id']['\$oid'];
-        return oid;
+        final id = responseData['_id'];
+        return id;
       } else {
-        final errorMessage =
-            jsonDecode(response.body)['message'] ?? 'Unknown error';
-        throw Exception('Failed to authenticate: $errorMessage');
+        throw Exception(jsonDecode(response.body)['param']);
       }
     } catch (e) {
-      throw Exception(
-          'An error occurred while authenticating: ${e.toString()}');
+      throw Exception(e.toString());
     }
   }
 
@@ -60,13 +57,10 @@ class UserService {
       if (response.statusCode == 201) {
         return 'Success';
       } else {
-        final errorMessage =
-            jsonDecode(response.body)['message'] ?? 'Unknown error';
-        throw Exception('Failed to register user: $errorMessage');
+        throw Exception(jsonDecode(response.body)['detail']);
       }
     } catch (e) {
-      throw Exception(
-          'An error occurred while registering user: ${e.toString()}');
+      throw Exception(e.toString());
     }
   }
 }

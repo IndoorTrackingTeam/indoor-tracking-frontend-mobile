@@ -1,15 +1,10 @@
-# Indoor Tracking
-
 <p align="center">
-  <img src="assets/logo.png" alt="Logo" width="300" height="300">
+  <img src="assets/logo.png" alt="Logo" width="400" height="200">
 </p>
 
 <p align="center">
-  <a href="https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend">
-    <img src="https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=alert_status" alt="Quality Gate Status">
-  </a>
-  <a href="https://sonarcloud.io/summary/new_code?id=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend">
-    <img src="https://sonarcloud.io/api/project_badges/measure?project=PedroPereiraGuimaraes_tcc-indoor-tracking-frontend&metric=bugs" alt="Bugs">
+  <a>
+    <img alt="Static Badge" src="https://img.shields.io/badge/IT-Indoor%20Tracking-F1B600?&logoColor=white&link=https%3A%2F%2Fgithub.com%2FIndoorTrackingTeam">
   </a>
   <a href="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml">
     <img src="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml/badge.svg" alt="Flutter Tests">

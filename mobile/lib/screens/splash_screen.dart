@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/login_screen.dart';
+import 'package:indoortracking/screens/login_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile/screens/equipaments_screen.dart';
+import 'package:indoortracking/screens/equipaments_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,20 +46,11 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset(
               'assets/images/logo.png',
-              width: 150,
-            ),
-            SizedBox(height: 40),
-            Text(
-              'INDOOR TRACKING',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1A572F),
-              ),
+              width: 300,
             ),
             SizedBox(height: 40),
             SpinKitCircle(
-              color: Color(0xFF1A572F),
+              color: Color(0xFF394170),
               size: 45.0,
             ),
           ],

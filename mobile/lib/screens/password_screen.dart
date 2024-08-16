@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/login_screen.dart';
+import 'package:indoortracking/screens/login_screen.dart';
 
 class PasswordScreen extends StatefulWidget {
   const PasswordScreen({super.key});
