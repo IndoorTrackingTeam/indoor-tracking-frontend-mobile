@@ -1,10 +1,11 @@
-# Indoor Tracking
-
 <p align="center">
-  <img src="assets/logo.png" alt="Logo" width="300" height="300">
+  <img src="assets/logo.png" alt="Logo" width="400" height="200">
 </p>
 
 <p align="center">
+  <a>
+    <img alt="Static Badge" src="https://img.shields.io/badge/IT-Indoor%20Tracking-F1B600?&logoColor=white&link=https%3A%2F%2Fgithub.com%2FIndoorTrackingTeam">
+  </a>
   <a href="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml">
     <img src="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml/badge.svg" alt="Flutter Tests">
   </a>
