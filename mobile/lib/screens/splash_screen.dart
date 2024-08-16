@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:indoortracking/screens/login_screen.dart';
+import 'package:mobile/screens/login_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:indoortracking/screens/equipaments_screen.dart';
+import 'package:mobile/screens/equipaments_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {

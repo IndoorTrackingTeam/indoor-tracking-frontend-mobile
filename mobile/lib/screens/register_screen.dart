@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, avoid_print, avoid_unnecessary_containers, unused_field, unused_local_variable, use_build_context_synchronously, unused_element
 
 import 'package:flutter/material.dart';
-import 'package:indoortracking/api/user_service.dart';
-import 'package:indoortracking/screens/login_screen.dart';
+import 'package:mobile/api/user_service.dart';
+import 'package:mobile/screens/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
