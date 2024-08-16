@@ -11,24 +11,12 @@
   </a>
 </p>
 
-# Padrões de Commits
 
-Este repositório segue uma convenção de commits para manter um histórico claro e consistente. Abaixo está uma tabela com os tipos de commits e suas descrições.
+## Tecnologias
+Essas tecnologias foram selecionadas para a aplicação com o objetivo de garantir alto desempenho,  eficiência e alta qualidade na aplicação.
 
-| Tipo de Commit | Descrição |
-| -------------- | --------- |
-| `feat`         | Adição de uma nova funcionalidade |
-| `fix`          | Correção de um bug |
-| `docs`         | Mudanças na documentação |
-| `style`        | Alterações que não afetam o significado do código (espaços em branco, formatação, ponto e vírgula ausente, etc.) |
-| `refactor`     | Refatoração de código, que não altera a funcionalidade nem corrige bugs |
-| `perf`         | Alterações de código que melhoram o desempenho |
-| `test`         | Adição ou correção de testes |
-| `build`        | Mudanças que afetam o sistema de build ou dependências externas (ferramentas de compilação, bibliotecas, etc.) |
-| `ci`           | Mudanças em arquivos e scripts de configuração de CI (Integração Contínua) |
-| `chore`        | Outras mudanças que não modificam o código fonte ou os testes |
-| `revert`       | Reversão de um commit anterior |
-| `merge`        | Mesclagem de branches |
-| `hotfix`       | Correção urgente de um bug crítico |
-
-Siga esses padrões ao fazer commits para garantir um histórico de commits limpo e fácil de entender.
+![Dart](https://img.shields.io/badge/Dart-323330?style=for-the-badge&logo=dart&logoColor=0AC1CD)
+![Flutter](https://img.shields.io/badge/Flutter-323330?style=for-the-badge&logo=flutter&logoColor=0ACD70)
+![Git](https://img.shields.io/badge/Git-323330?style=for-the-badge&logo=git&logoColor=FFA800)
+![GCP](https://img.shields.io/badge/Google%20Cloud-323330?style=for-the-badge&logo=google-cloud&logoColor=FFFFFF)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-323330?style=for-the-badge&logo=github-actions&logoColor=FFFFFF)
