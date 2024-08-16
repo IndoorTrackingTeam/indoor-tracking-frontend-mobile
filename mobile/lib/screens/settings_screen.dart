@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:indoortracking/screens/login_screen.dart';
-import 'package:indoortracking/widgets/bottom_navbar.dart';
+import 'package:mobile/screens/login_screen.dart';
+import 'package:mobile/widgets/bottom_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {

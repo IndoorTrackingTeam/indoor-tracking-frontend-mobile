@@ -2,8 +2,8 @@
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:indoortracking/api/equipament_service.dart';
-import 'package:indoortracking/widgets/bottom_navbar.dart';
+import 'package:mobile/api/equipament_service.dart';
+import 'package:mobile/widgets/bottom_navbar.dart';
 
 class EquipamentsScreen extends StatefulWidget {
   final String _token;

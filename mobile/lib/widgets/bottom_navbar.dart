@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names
 
 import 'package:flutter/material.dart';
-import 'package:indoortracking/screens/equipaments_screen.dart';
-import 'package:indoortracking/screens/settings_screen.dart';
+import 'package:mobile/screens/equipaments_screen.dart';
+import 'package:mobile/screens/settings_screen.dart';
 
 Widget Navbar(BuildContext context, String token, int index) {
   return Container(
