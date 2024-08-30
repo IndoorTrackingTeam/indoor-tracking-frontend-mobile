@@ -194,7 +194,6 @@ Widget textEquipamentHistoric(String room, String date, BuildContext context) {
 
 Future<void> _getEquipamentsHistoric(BuildContext context,
     EquipamentService equipamentService, dynamic equipament) async {
-  print(equipament);
   Map<String, dynamic> data =
       await equipamentService.getOneEquipament(equipament['register']);
   _showEquipamentDetails(context, equipament, data);

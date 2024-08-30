@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-const String path = 'https://run-api-prod-viicaovoda-ue.a.run.app';
+const String path = 'https://run-api-dev-nsgu7atvqa-ue.a.run.app';
 
 class UserService {
   Future<String> signInEmailPassword(String email, String password) async {
