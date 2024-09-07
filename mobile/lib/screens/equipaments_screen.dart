@@ -1,5 +1,6 @@
-// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_declarations
 
+import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/api/equipament_service.dart';
@@ -62,7 +63,17 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
 Widget cardEquipament(BuildContext context, dynamic equipament) {
   return Container(
     decoration: BoxDecoration(
-        color: Color(0xFF394170), borderRadius: BorderRadius.circular(10)),
+      color: Color(0xFF394170),
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.3),
+          offset: Offset(0, 4),
+          blurRadius: 8,
+          spreadRadius: 0,
+        ),
+      ],
+    ),
     margin: EdgeInsets.only(bottom: 10),
     child: Row(
       children: [
@@ -75,12 +86,20 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
                   topLeft: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
                 ),
-                child: Image.asset(
-                  "assets/images/equipament.png",
-                  width: 150,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
+                child: equipament['image'] != null &&
+                        equipament['image'].isNotEmpty
+                    ? Image.memory(
+                        base64Decode(equipament['image']),
+                        width: 150,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        "default.png",
+                        width: 150,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
               ),
             ],
           ),
@@ -194,9 +213,17 @@ Widget textEquipamentHistoric(String room, String date, BuildContext context) {
 
 Future<void> _getEquipamentsHistoric(BuildContext context,
     EquipamentService equipamentService, dynamic equipament) async {
-  print(equipament);
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return Center(child: CircularProgressIndicator());
+    },
+  );
+
   Map<String, dynamic> data =
       await equipamentService.getOneEquipament(equipament['register']);
+  Navigator.pop(context);
   _showEquipamentDetails(context, equipament, data);
 }
 
@@ -205,97 +232,103 @@ void _showEquipamentDetails(
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return Container(
-        width: double.infinity,
-        height: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 150),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Color(0xFF1D1D1D)
-              : Color(0xFFF5F7F8),
+      final screenSize = MediaQuery.of(context).size;
+
+      return Dialog(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 7,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Dados do Equipamento",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+        child: Container(
+          width: screenSize.width * 0.8,
+          height: 450,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Color(0xFF1D1D1D)
+                : Color(0xFFF5F7F8),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 250,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Dados do Equipamento",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: Icon(Icons.close),
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(Icons.close),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  textEquipament(equipament['name'].toUpperCase(), context),
-                  textEquipament(equipament['register'].toString(), context),
-                  textEquipament(
-                      "Ultima vez visto na sala ${equipament['c_room']}",
-                      context),
-                ],
+                      ],
+                    ),
+                    Divider(),
+                    textEquipament(equipament['name'].toUpperCase(), context),
+                    textEquipament(equipament['register'].toString(), context),
+                    textEquipament(
+                        "Última vez visto na sala ${equipament['c_room']}",
+                        context),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              flex: 5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Historico",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+              SizedBox(
+                height: 150,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Histórico",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  Divider(),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: (data['historic'] ?? []).length,
-                      itemBuilder: (context, index) {
-                        var initialDate = DateTime.parse(
-                            data['historic'][index]['initial_date']);
-                        var formattedDate =
-                            DateFormat('HH:mm dd/MM/yyyy').format(initialDate);
-                        return textEquipamentHistoric(
-                          'Sala ${data['historic'][index]['room']}',
-                          formattedDate,
-                          context,
-                        );
-                      },
+                    SizedBox(height: 5),
+                    Divider(),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: (data['historic'] ?? []).length,
+                        itemBuilder: (context, index) {
+                          var initialDate = DateTime.parse(
+                              data['historic'][index]['initial_date']);
+                          var formattedDate = DateFormat('HH:mm dd/MM/yyyy')
+                              .format(initialDate);
+                          return textEquipamentHistoric(
+                            'Sala ${data['historic'][index]['room']}',
+                            formattedDate,
+                            context,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     },

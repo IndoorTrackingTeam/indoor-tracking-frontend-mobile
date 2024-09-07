@@ -1,6 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:mobile/api/user_service.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile/screens/login_screen.dart';
 import 'package:mobile/widgets/bottom_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +18,10 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  UserService userService = UserService();
+  Map<String, dynamic> userData = {};
+  bool isLoading = true;
+
   Future<void> _confirmLogout() async {
     bool? shouldLogout = await showDialog<bool>(
       context: context,
@@ -48,7 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.of(context).pop(false);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
+                backgroundColor: WidgetStateProperty.all(
                   Color(0xFFF5F7F8),
                 ),
               ),
@@ -64,7 +72,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.of(context).pop(true);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
+                backgroundColor: WidgetStateProperty.all(
                   Color.fromARGB(255, 143, 20, 11),
                 ),
               ),
@@ -92,6 +100,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<void> _getUserData(String token) async {
+    setState(() {
+      isLoading = true;
+    });
+    Map<String, dynamic> data = await userService.getUser(token);
+    setState(() {
+      userData = data;
+      isLoading = false;
+    });
+  }
+
+  Future<void> _selectImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      final bytes = await imageFile.readAsBytes();
+      String base64String = base64Encode(bytes);
+      await userService.updateUserPhoto(widget._token, base64String);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => super.widget),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserData(widget._token);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,24 +141,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Column(
           children: [
             SizedBox(height: 16),
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/user.png'),
-                  fit: BoxFit.fill,
-                ),
-                border: Border.all(
-                  color: Color(0xFF394170),
-                  width: 5,
-                ),
-              ),
-            ),
+            isLoading
+                ? Center(
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/default.png'),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: userData['photo'] != null &&
+                                userData['photo'].isNotEmpty
+                            ? MemoryImage(base64Decode(userData['photo']))
+                            : AssetImage('assets/images/default.png')
+                                as ImageProvider,
+                        fit: BoxFit.fill,
+                      ),
+                      border: Border.all(
+                        color: Color(0xFF394170),
+                        width: 5,
+                      ),
+                    ),
+                  ),
             SizedBox(height: 16),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: _selectImage,
               child: Text('Editar'),
             ),
             SizedBox(height: 16),

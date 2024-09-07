@@ -4,6 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:mobile/screens/equipaments_screen.dart';
 import 'package:mobile/screens/settings_screen.dart';
 
+Route _createRoute(Widget screen, bool slideFromRight) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => screen,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      Offset begin = slideFromRight ? Offset(1.0, 0.0) : Offset(-1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+  );
+}
+
 Widget Navbar(BuildContext context, String token, int index) {
   return Container(
     margin: const EdgeInsets.only(bottom: 20, left: 70, right: 70),
@@ -24,9 +43,7 @@ Widget Navbar(BuildContext context, String token, int index) {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => EquipamentsScreen(token),
-                        ),
+                        _createRoute(EquipamentsScreen(token), true),
                       );
                     },
                     child: Container(
@@ -73,9 +90,7 @@ Widget Navbar(BuildContext context, String token, int index) {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => SettingsScreen(token),
-                      ),
+                      _createRoute(SettingsScreen(token), true),
                     );
                   },
                 ),
@@ -91,9 +106,7 @@ Widget Navbar(BuildContext context, String token, int index) {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => EquipamentsScreen(token),
-                      ),
+                      _createRoute(EquipamentsScreen(token), false),
                     );
                   },
                 ),
@@ -104,9 +117,7 @@ Widget Navbar(BuildContext context, String token, int index) {
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => SettingsScreen(token),
-                      ),
+                      _createRoute(SettingsScreen(token), false),
                     );
                   },
                   child: Container(
