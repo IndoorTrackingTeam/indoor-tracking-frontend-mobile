@@ -127,16 +127,16 @@ ThemeData dark = ThemeData(
     ),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.resolveWith<Color>(
-      (Set<WidgetState> states) {
-        if (states.contains(WidgetState.selected)) {
+    thumbColor: MaterialStateProperty.resolveWith<Color>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
           return Color(0xFF394170);
         }
         return Color(0xFFF5F7F8);
       },
     ),
-    trackColor: WidgetStateProperty.resolveWith<Color>(
-      (Set<WidgetState> states) {
+    trackColor: MaterialStateProperty.resolveWith<Color>(
+      (Set<MaterialState> states) {
         return Color(0xFFBDBDBD);
       },
     ),
@@ -156,10 +156,10 @@ ThemeData dark = ThemeData(
     fillColor: Color(0xFF2D2D2D),
   ),
   checkboxTheme: CheckboxThemeData(
-    fillColor: WidgetStateColor.resolveWith(
+    fillColor: MaterialStateColor.resolveWith(
       (states) => Color(0xFF2D2D2D),
     ),
-    checkColor: WidgetStateProperty.resolveWith<Color?>(
+    checkColor: MaterialStateProperty.resolveWith<Color?>(
       (states) => Color(0xFFF5F7F8),
     ),
     side: BorderSide(
