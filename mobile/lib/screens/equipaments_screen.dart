@@ -300,7 +300,7 @@ Future<void> _getEquipamentsHistoric(BuildContext context,
       return Center(child: CircularProgressIndicator());
     },
   );
-
+  
   Map<String, dynamic> data =
       await equipamentService.getOneEquipament(equipament['register']);
   Navigator.pop(context);
