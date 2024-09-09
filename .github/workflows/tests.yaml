@@ -10,7 +10,6 @@ on:
         default: true
   push:
     branches:
-      - main
       - development
   pull_request:
     types: [opened, synchronize, reopened]
@@ -22,6 +21,7 @@ permissions:
 
 jobs:
   tests:
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
