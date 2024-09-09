@@ -141,7 +141,7 @@ ThemeData light = ThemeData(
     fillColor: Color(0xFFFFFFFF),
   ),
   checkboxTheme: CheckboxThemeData(
-    checkColor: MaterialStateProperty.resolveWith<Color?>(
+    checkColor: WidgetStateProperty.resolveWith<Color?>(
       (states) => Color(0xFFF5F7F8),
     ),
   ),
