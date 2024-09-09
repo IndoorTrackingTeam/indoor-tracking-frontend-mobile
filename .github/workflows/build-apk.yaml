@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK Android
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write  # Garantir permissões adequadas
+  contents: write
   checks: write
 
 jobs:
