@@ -72,7 +72,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.of(context).pop(true);
               },
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(
+                backgroundColor: MaterialStateProperty.all(
                   Color.fromARGB(255, 143, 20, 11),
                 ),
               ),
@@ -122,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.of(context).pop(false);
               },
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(
+                backgroundColor: MaterialStateProperty.all(
                   Color(0xFFF5F7F8),
                 ),
               ),
@@ -138,7 +138,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.of(context).pop(true);
               },
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(
+                backgroundColor: MaterialStateProperty.all(
                   Color(0xFF394170),
                 ),
               ),
