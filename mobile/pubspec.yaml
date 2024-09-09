@@ -17,7 +17,7 @@ dependencies:
   flutter_spinkit: ^5.1.0
   intl: ^0.17.0
   image_picker: ^1.1.2
-  image_cropper: ^8.0.2
+  image_cropper: ^8.0.1
   shimmer: ^2.0.0
 
 dev_dependencies:
