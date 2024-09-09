@@ -42,7 +42,7 @@ jobs:
     - name: Run tests
       run: |
         cd mobile
-        flutter test --machine > tests.output
+        flutter test > tests.output
 
     - name: Test Reporter
       uses: dorny/test-reporter@v1.9.1
