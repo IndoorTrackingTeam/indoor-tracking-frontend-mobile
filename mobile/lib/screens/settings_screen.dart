@@ -88,6 +88,109 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Future<void> _confirmResetPassword() async {
+    bool? shouldSend = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Confirmar redefinição de senha',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFFF5F7F8)
+                  : Color(0xFF2D2D2D),
+            ),
+          ),
+          content: Text(
+            'Vamos enviar um email para que você redefina sua senha de acesso?',
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFFF5F7F8)
+                  : Color(0xFF2D2D2D),
+            ),
+          ),
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? Color(0xFF2D2D2D)
+              : Color(0xFFF5F7F8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(
+                  Color(0xFFF5F7F8),
+                ),
+              ),
+              child: Text(
+                'Cancelar',
+                style: TextStyle(
+                  color: Color(0xFF2D2D2D),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(
+                  Color(0xFF394170),
+                ),
+              ),
+              child: Text('Enviar'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldSend == true) {
+      try {
+        // _sendEmail(email);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Sucesso"),
+              content: Text('Email enviado para ${userData['email']}'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Erro"),
+              content: Text('Erro ao enviar email: ${e.toString()}'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+  }
+
   Future<void> _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('logged_in', false);
@@ -120,9 +223,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final bytes = await imageFile.readAsBytes();
       String base64String = base64Encode(bytes);
       await userService.updateUserPhoto(widget._token, base64String);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => super.widget),
-      );
+      setState(() {
+        userData['photo'] = base64String;
+      });
     }
   }
 
@@ -135,7 +238,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Configurações'),
+      ),
       body: Padding(
         padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
         child: Column(
@@ -175,7 +280,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-            SizedBox(height: 16),
+            SizedBox(height: 10),
             OutlinedButton(
               onPressed: _selectImage,
               child: Text('Editar'),
@@ -190,7 +295,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       : Color(0xFF2D2D2D),
                 ),
               ),
-              onTap: () {},
+              onTap: _confirmResetPassword,
               tileColor: Theme.of(context).brightness == Brightness.dark
                   ? Color(0xFF2D2D2D)
                   : Color(0xFFFFFFFF),
