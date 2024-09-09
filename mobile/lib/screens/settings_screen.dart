@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, deprecated_member_use
 
 import 'dart:io';
 import 'dart:convert';
@@ -56,7 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.of(context).pop(false);
               },
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(
+                backgroundColor: MaterialStateProperty.all(
                   Color(0xFFF5F7F8),
                 ),
               ),
