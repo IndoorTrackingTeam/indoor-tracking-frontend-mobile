@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write  # Garantir permissões adequadas
+  checks: write
+
 jobs:
   tests:
     name: Run Tests
@@ -23,12 +27,12 @@ jobs:
       run: |
         cd mobile
         flutter pub get
-        
+
     - name: Run tests
       run: |
         cd mobile
         flutter test --machine > tests.output
-        
+
     - name: Test Reporter
       uses: dorny/test-reporter@v1.9.1
       if: always()
