@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write  # Garantir permissões adequadas
+  checks: write
+
 jobs:
   tests:
     name: Run Tests
@@ -41,7 +45,7 @@ jobs:
   build:
     name: Build APK
     runs-on: ubuntu-latest
-    depends-on: tests
+    needs: tests
 
     steps:
     - name: Checkout repository
