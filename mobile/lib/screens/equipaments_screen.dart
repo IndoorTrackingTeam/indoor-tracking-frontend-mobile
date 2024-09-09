@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_declarations
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/api/equipament_service.dart';
 import 'package:mobile/widgets/bottom_navbar.dart';
@@ -15,9 +17,21 @@ class EquipamentsScreen extends StatefulWidget {
 }
 
 class _EquipamentsScreenState extends State<EquipamentsScreen> {
+  final TextEditingController _searchController = TextEditingController();
   EquipamentService equipamentService = EquipamentService();
   List<dynamic> equipaments = [];
+  List<dynamic> filteredEquipaments = [];
   bool isLoading = true;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchEquipaments();
+    _timer = Timer.periodic(Duration(minutes: 2), (timer) {
+      _fetchEquipaments();
+    });
+  }
 
   Future<void> _fetchEquipaments() async {
     setState(() {
@@ -26,34 +40,100 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
     List<dynamic> list = await equipamentService.getEquipaments();
     setState(() {
       equipaments = list;
+      filteredEquipaments = list;
       isLoading = false;
     });
   }
 
   @override
-  void initState() {
-    super.initState();
-    _fetchEquipaments();
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
-        child: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: equipaments.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => _getEquipamentsHistoric(
-                        context, equipamentService, equipaments[index]),
-                    child: cardEquipament(context, equipaments[index]),
-                  );
-                },
+      appBar: AppBar(
+        title: Text('Equipamentos'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh, color: Colors.white),
+            onPressed: _fetchEquipaments,
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                setState(() {
+                  filteredEquipaments = equipaments
+                      .where((element) => element['name']
+                          .toLowerCase()
+                          .contains(value.toLowerCase()))
+                      .toList();
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Pesquisar',
+                prefixIcon: Icon(Icons.search, color: Color(0xFF394170)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
               ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: isLoading
+                  ? ListView.builder(
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey[400]!,
+                          highlightColor: Colors.grey[300]!,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 100.0,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[400],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : filteredEquipaments.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Nenhum equipamento encontrado',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: filteredEquipaments.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () => _getEquipamentsHistoric(
+                                  context,
+                                  equipamentService,
+                                  filteredEquipaments[index]),
+                              child: cardEquipament(
+                                  context, filteredEquipaments[index]),
+                            );
+                          },
+                        ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: Navbar(context, widget._token, 0),
     );
