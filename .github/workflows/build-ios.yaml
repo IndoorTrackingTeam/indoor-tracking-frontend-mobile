@@ -1,4 +1,4 @@
-name: Build APK Android
+name: Build IPA IOS
 
 on:
   push:
