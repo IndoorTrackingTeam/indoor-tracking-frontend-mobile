@@ -63,7 +63,7 @@ jobs:
         flutter pub get
 
     - run: pod repo update
-      working-directory: ios
+      working-directory: mobile/ios
 
     - run: |
         cd mobile
