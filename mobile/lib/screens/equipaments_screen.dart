@@ -55,9 +55,11 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        key: Key('app_bar'),
         title: Text('Equipamentos'),
         actions: [
           IconButton(
+            key: Key('refresh_button'),
             icon: Icon(Icons.refresh, color: Colors.white),
             onPressed: _fetchEquipaments,
           ),
@@ -68,6 +70,7 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
           Padding(
             padding: EdgeInsets.only(top: 20, left: 20, right: 20),
             child: TextField(
+              key: Key('search_text_field'),
               controller: _searchController,
               onChanged: (value) {
                 setState(() {
@@ -93,6 +96,7 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
               padding: EdgeInsets.all(20),
               child: isLoading
                   ? ListView.builder(
+                      key: Key('equipaments_list_shimmer'),
                       itemCount: 4,
                       itemBuilder: (context, index) {
                         return Shimmer.fromColors(
@@ -113,12 +117,14 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
                     )
                   : filteredEquipaments.isEmpty
                       ? Center(
+                          key: Key('empty_message'),
                           child: Text(
                             'Nenhum equipamento encontrado',
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                         )
                       : ListView.builder(
+                          key: Key('equipaments_list'),
                           itemCount: filteredEquipaments.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
@@ -300,7 +306,7 @@ Future<void> _getEquipamentsHistoric(BuildContext context,
       return Center(child: CircularProgressIndicator());
     },
   );
-  
+
   Map<String, dynamic> data =
       await equipamentService.getOneEquipament(equipament['register']);
   Navigator.pop(context);
