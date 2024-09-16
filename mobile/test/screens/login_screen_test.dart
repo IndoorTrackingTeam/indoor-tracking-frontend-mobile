@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/screens/login_screen.dart';
@@ -21,12 +20,12 @@ void main() {
       testWidgets('Deve ser exibido o campo de email corretamente na tela.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final emailField = find.byKey(Key('email_field'));
+        final emailField = find.byKey(const Key('email_field'));
 
         expect(emailField, findsOneWidget);
       });
@@ -34,12 +33,12 @@ void main() {
       testWidgets('Deve ser exibido o campo de senha corretamente na tela.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final passwordField = find.byKey(Key('password_field'));
+        final passwordField = find.byKey(const Key('password_field'));
 
         expect(passwordField, findsOneWidget);
       });
@@ -48,12 +47,12 @@ void main() {
           'Deve ser exibido o campo de lembrar de mim corretamente na tela.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final rememberMeKey = find.byKey(Key('remember_me_key'));
+        final rememberMeKey = find.byKey(const Key('remember_me_key'));
 
         expect(rememberMeKey, findsOneWidget);
       });
@@ -62,12 +61,13 @@ void main() {
           'Deve ser exibido o botão esqueci minha senha corretamente na tela.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final forgotPasswordField = find.byKey(Key('forgot_password_key'));
+        final forgotPasswordField =
+            find.byKey(const Key('forgot_password_key'));
 
         expect(forgotPasswordField, findsOneWidget);
       });
@@ -75,12 +75,12 @@ void main() {
       testWidgets('Deve ser exibido o botão de login corretamente na tela.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final loginButton = find.byKey(Key('login_button'));
+        final loginButton = find.byKey(const Key('login_button'));
 
         expect(loginButton, findsOneWidget);
       });
@@ -88,12 +88,12 @@ void main() {
       testWidgets('Deve ser exibido o botão de registrar corretamente na tela.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final registerButton = find.byKey(Key('register_button'));
+        final registerButton = find.byKey(const Key('register_button'));
 
         expect(registerButton, findsOneWidget);
       });
@@ -104,14 +104,14 @@ void main() {
           'Deve pedir que o usuario coloque o email ao clicar no botão de login com o campo de email vazio.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final emailField = find.byKey(Key('email_field'));
-        final passwordField = find.byKey(Key('password_field'));
-        final loginButton = find.byKey(Key('login_button'));
+        final emailField = find.byKey(const Key('email_field'));
+        final passwordField = find.byKey(const Key('password_field'));
+        final loginButton = find.byKey(const Key('login_button'));
 
         await tester.enterText(emailField, '');
         await tester.enterText(passwordField, '1234');
@@ -127,14 +127,14 @@ void main() {
           'Deve pedir que o usuario coloque a senha ao clicar no botão de login com o campo de email vazio.',
           (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: LoginScreen(),
           ),
         );
 
-        final emailField = find.byKey(Key('email_field'));
-        final passwordField = find.byKey(Key('password_field'));
-        final loginButton = find.byKey(Key('login_button'));
+        final emailField = find.byKey(const Key('email_field'));
+        final passwordField = find.byKey(const Key('password_field'));
+        final loginButton = find.byKey(const Key('login_button'));
 
         await tester.enterText(emailField, 'teste@email.com');
         await tester.enterText(passwordField, '');
@@ -152,12 +152,12 @@ void main() {
         final mockObserver = MockNavigatorObserver();
         await tester.pumpWidget(
           MaterialApp(
-            home: LoginScreen(),
+            home: const LoginScreen(),
             navigatorObservers: [mockObserver],
           ),
         );
 
-        final forgotPasswordKey = find.byKey(Key('forgot_password_key'));
+        final forgotPasswordKey = find.byKey(const Key('forgot_password_key'));
         await tester.tap(forgotPasswordKey);
         await tester.pumpAndSettle();
 
@@ -170,12 +170,12 @@ void main() {
         final mockObserver = MockNavigatorObserver();
         await tester.pumpWidget(
           MaterialApp(
-            home: LoginScreen(),
+            home: const LoginScreen(),
             navigatorObservers: [mockObserver],
           ),
         );
 
-        final registerButton = find.byKey(Key('register_button'));
+        final registerButton = find.byKey(const Key('register_button'));
         await tester.tap(registerButton);
         await tester.pumpAndSettle();
 
@@ -188,12 +188,12 @@ void main() {
         final mockObserver = MockNavigatorObserver();
         await tester.pumpWidget(
           MaterialApp(
-            home: LoginScreen(),
+            home: const LoginScreen(),
             navigatorObservers: [mockObserver],
           ),
         );
 
-        final rememberMeKey = find.byKey(Key('remember_me_key'));
+        final rememberMeKey = find.byKey(const Key('remember_me_key'));
         await tester.tap(rememberMeKey);
         await tester.pumpAndSettle();
         final rememberMe = tester.widget<Checkbox>(rememberMeKey);
