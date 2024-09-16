@@ -9,8 +9,7 @@ on:
         type: boolean
         default: true
   push:
-    branches:
-      - development
+    branches: [ main , development ]
   pull_request:
     types: [opened, synchronize, reopened]
 
