@@ -52,17 +52,20 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
     });
     try {
       await equipamentService.updateEquipamentsLocation();
-      List<dynamic> list = await equipamentService.getEquipaments();
-
+      await _fetchEquipaments();
       setState(() {
-        equipaments = list;
-        filteredEquipaments = list;
         isUpdatingEquipaments = false;
       });
     } catch (e) {
       setState(() {
         isUpdatingEquipaments = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao atualizar a localização dos equipamentos'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -76,11 +79,12 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        key: Key('app_bar'),
         title: Text('Equipamentos'),
         actions: [
           isUpdatingEquipaments
               ? Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(15),
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     strokeWidth: 1,
@@ -97,6 +101,7 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
           Padding(
             padding: EdgeInsets.only(top: 20, left: 20, right: 20),
             child: TextField(
+              key: Key('search_text_field'),
               controller: _searchController,
               onChanged: (value) {
                 setState(() {
@@ -122,6 +127,7 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
               padding: EdgeInsets.all(20),
               child: isLoading
                   ? ListView.builder(
+                      key: Key('equipaments_list_shimmer'),
                       itemCount: 4,
                       itemBuilder: (context, index) {
                         return Shimmer.fromColors(
@@ -142,12 +148,14 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
                     )
                   : filteredEquipaments.isEmpty
                       ? Center(
+                          key: Key('empty_message'),
                           child: Text(
                             'Nenhum equipamento encontrado',
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                         )
                       : ListView.builder(
+                          key: Key('equipaments_list'),
                           itemCount: filteredEquipaments.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
