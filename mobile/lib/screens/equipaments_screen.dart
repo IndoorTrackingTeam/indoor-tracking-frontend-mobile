@@ -22,6 +22,7 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
   List<dynamic> equipaments = [];
   List<dynamic> filteredEquipaments = [];
   bool isLoading = true;
+  bool isUpdatingEquipaments = false;
   Timer? _timer;
 
   @override
@@ -45,6 +46,26 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
     });
   }
 
+  Future<void> _updateEquipamentsLocation() async {
+    setState(() {
+      isUpdatingEquipaments = true;
+    });
+    try {
+      await equipamentService.updateEquipamentsLocation();
+      List<dynamic> list = await equipamentService.getEquipaments();
+
+      setState(() {
+        equipaments = list;
+        filteredEquipaments = list;
+        isUpdatingEquipaments = false;
+      });
+    } catch (e) {
+      setState(() {
+        isUpdatingEquipaments = false;
+      });
+    }
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -57,10 +78,18 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
       appBar: AppBar(
         title: Text('Equipamentos'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.refresh, color: Colors.white),
-            onPressed: _fetchEquipaments,
-          ),
+          isUpdatingEquipaments
+              ? Container(
+                  padding: EdgeInsets.all(10),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    strokeWidth: 1,
+                  ),
+                )
+              : IconButton(
+                  icon: Icon(Icons.refresh, color: Colors.white),
+                  onPressed: _updateEquipamentsLocation,
+                ),
         ],
       ),
       body: Column(
@@ -300,7 +329,7 @@ Future<void> _getEquipamentsHistoric(BuildContext context,
       return Center(child: CircularProgressIndicator());
     },
   );
-  
+
   Map<String, dynamic> data =
       await equipamentService.getOneEquipament(equipament['register']);
   Navigator.pop(context);
