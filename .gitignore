@@ -12,3 +12,9 @@ doc/api/
 *.js.map
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# FVM Version Cache
+.fvm/
+.fvmrc
+**.vscode
+.DS_Store
