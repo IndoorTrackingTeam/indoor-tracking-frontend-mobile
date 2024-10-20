@@ -430,9 +430,9 @@ void _showEquipamentDetails(
                         itemCount: (data['historic'] ?? []).length,
                         itemBuilder: (context, index) {
                           var initialDate = DateTime.parse(
-                              data['historic'][index]['initial_date']);
+                              "${data['historic'][index]['initial_date']}Z");
                           var formattedDate = DateFormat('HH:mm dd/MM/yyyy')
-                              .format(initialDate);
+                              .format(initialDate.toLocal());
                           return textEquipamentHistoric(
                             'Sala ${data['historic'][index]['room']}',
                             formattedDate,
