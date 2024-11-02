@@ -1,6 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile/api/user_service.dart';
 import 'package:mobile/screens/login_screen.dart';
 
 class PasswordScreen extends StatefulWidget {
@@ -12,6 +15,7 @@ class PasswordScreen extends StatefulWidget {
 
 class _PasswordScreenState extends State<PasswordScreen> {
   final _formKey = GlobalKey<FormState>();
+  UserService userService = UserService();
   final TextEditingController _emailController = TextEditingController();
 
   String? _emailValidator(String? value) {
@@ -25,17 +29,31 @@ class _PasswordScreenState extends State<PasswordScreen> {
     return null;
   }
 
-  void _sendRecoveryPassword() {
+  Future<void> _sendRecoveryPassword() async {
     if (_formKey.currentState?.validate() ?? false) {
       String email = _emailController.text;
       try {
-        // _sendEmail(email);
+        await userService.sendEmailRedefinePassword(email);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Email enviado para $email')),
+          SnackBar(
+            content: Text(
+                'Email enviado para $email. Caso não encontre, verifique a caixa de spam ou se o email foi digitado corretamente.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        sleep(Duration(seconds: 2));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao enviar email: ${e.toString()}')),
+          SnackBar(
+            content: Text('Erro ao enviar email: ${e.toString()}'),
+            backgroundColor: Colors.amber,
+          ),
         );
       }
     }

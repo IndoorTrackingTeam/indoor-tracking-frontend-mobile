@@ -244,6 +244,15 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
                   color: Color(0xFFF2F2F2),
                 ),
               ),
+              SizedBox(height: 5),
+              Text(
+                DateFormat('dd/MM/yyyy HH:mm')
+                    .format(DateTime.parse(equipament['c_date'])),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color(0xFFF2F2F2),
+                ),
+              ),
             ],
           ),
         ),

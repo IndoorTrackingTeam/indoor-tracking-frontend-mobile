@@ -88,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  Future<void> _confirmResetPassword() async {
+  Future<void> _confirmResetPassword(String email) async {
     bool? shouldSend = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
@@ -151,7 +151,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (shouldSend == true) {
       try {
-        // _sendEmail(email);
+        await userService.sendEmailRedefinePassword(email);
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -295,7 +295,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       : Color(0xFF2D2D2D),
                 ),
               ),
-              onTap: _confirmResetPassword,
+              onTap: () => _confirmResetPassword(userData['email']),
               tileColor: Theme.of(context).brightness == Brightness.dark
                   ? Color(0xFF2D2D2D)
                   : Color(0xFFFFFFFF),

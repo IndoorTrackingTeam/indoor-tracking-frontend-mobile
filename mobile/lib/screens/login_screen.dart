@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
   bool _rememberMe = false;
   bool _isLoggedIn = false;
   bool _isLoading = false;
@@ -163,8 +164,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          color: Color(0xFF1d1d1d),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
-                      obscureText: true,
+                      obscureText: _obscurePassword,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Coloque sua senha, por favor';
