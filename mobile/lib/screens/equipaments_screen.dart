@@ -247,7 +247,7 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
               SizedBox(height: 5),
               Text(
                 DateFormat('dd/MM/yyyy HH:mm')
-                    .format(DateTime.parse(equipament['c_date'])),
+                    .format(DateTime.parse(equipament['c_date']).toLocal()),
                 style: TextStyle(
                   fontSize: 12,
                   color: Color(0xFFF2F2F2),
