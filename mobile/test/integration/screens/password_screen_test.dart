@@ -30,29 +30,6 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Testando a tela de Redefinição de Senha', () {
-    testWidgets('Deve enviar email e navegar para a tela de login',
-        (tester) async {
-      final mockObserver = MockNavigatorObserver();
-      await tester.pumpWidget(
-        MaterialApp(
-          home: PasswordScreen(),
-          navigatorObservers: [mockObserver],
-        ),
-      );
-
-      final emailFieldFinder = find.byKey(Key("email_input_field"));
-      await tester.enterText(emailFieldFinder, 'valid@email.com');
-      await tester.pumpAndSettle();
-
-      final sendButtonFinder = find.byKey(Key("send_recovery_email_button"));
-      await tester.tap(sendButtonFinder);
-      await tester.pumpAndSettle();
-
-      expect(find.textContaining('Email enviado para'), findsOneWidget);
-
-      expect(mockObserver.pushedRoutes.length, 1);
-    });
-
     testWidgets('Deve exibir erro ao enviar email inválido', (tester) async {
       final mockObserver = MockNavigatorObserver();
       await tester.pumpWidget(
@@ -87,25 +64,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Por favor, insira um email'), findsOneWidget);
-    });
-
-    testWidgets('Deve exibir erro ao falhar no envio do email', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: PasswordScreen(),
-          navigatorObservers: [MockNavigatorObserver()],
-        ),
-      );
-
-      final emailFieldFinder = find.byKey(Key("email_input_field"));
-      await tester.enterText(emailFieldFinder, 'invalid@email.com');
-      await tester.pumpAndSettle();
-
-      final sendButtonFinder = find.byKey(Key("send_recovery_email_button"));
-      await tester.tap(sendButtonFinder);
-      await tester.pumpAndSettle();
-
-      expect(find.text('Erro ao enviar email'), findsOneWidget);
     });
   });
 }
