@@ -22,6 +22,7 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
   List<dynamic> equipaments = [];
   List<dynamic> filteredEquipaments = [];
   bool isLoading = true;
+  bool isUpdatingEquipaments = false;
   Timer? _timer;
 
   @override
@@ -45,6 +46,29 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
     });
   }
 
+  Future<void> _updateEquipamentsLocation() async {
+    setState(() {
+      isUpdatingEquipaments = true;
+    });
+    try {
+      await equipamentService.updateEquipamentsLocation();
+      await _fetchEquipaments();
+      setState(() {
+        isUpdatingEquipaments = false;
+      });
+    } catch (e) {
+      setState(() {
+        isUpdatingEquipaments = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao atualizar a localização dos equipamentos'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -58,11 +82,18 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
         key: Key('app_bar'),
         title: Text('Equipamentos'),
         actions: [
-          IconButton(
-            key: Key('refresh_button'),
-            icon: Icon(Icons.refresh, color: Colors.white),
-            onPressed: _fetchEquipaments,
-          ),
+          isUpdatingEquipaments
+              ? Container(
+                  padding: EdgeInsets.all(15),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    strokeWidth: 1,
+                  ),
+                )
+              : IconButton(
+                  icon: Icon(Icons.refresh, color: Colors.white),
+                  onPressed: _updateEquipamentsLocation,
+                ),
         ],
       ),
       body: Column(
@@ -208,6 +239,15 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
               SizedBox(height: 5),
               Text(
                 'Sala ${equipament['c_room'].toUpperCase()}',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color(0xFFF2F2F2),
+                ),
+              ),
+              SizedBox(height: 5),
+              Text(
+                DateFormat('dd/MM/yyyy HH:mm')
+                    .format(DateTime.parse(equipament['c_date']).toLocal()),
                 style: TextStyle(
                   fontSize: 12,
                   color: Color(0xFFF2F2F2),
@@ -399,9 +439,9 @@ void _showEquipamentDetails(
                         itemCount: (data['historic'] ?? []).length,
                         itemBuilder: (context, index) {
                           var initialDate = DateTime.parse(
-                              data['historic'][index]['initial_date']);
+                              "${data['historic'][index]['initial_date']}Z");
                           var formattedDate = DateFormat('HH:mm dd/MM/yyyy')
-                              .format(initialDate);
+                              .format(initialDate.toLocal());
                           return textEquipamentHistoric(
                             'Sala ${data['historic'][index]['room']}',
                             formattedDate,

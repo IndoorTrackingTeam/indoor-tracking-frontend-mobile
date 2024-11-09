@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:mobile/api/user_service.dart';
 import 'package:mobile/screens/login_screen.dart';
 
 class PasswordScreen extends StatefulWidget {
@@ -11,7 +13,8 @@ class PasswordScreen extends StatefulWidget {
 }
 
 class _PasswordScreenState extends State<PasswordScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final UserService _userService = UserService();
   final TextEditingController _emailController = TextEditingController();
 
   String? _emailValidator(String? value) {
@@ -25,17 +28,32 @@ class _PasswordScreenState extends State<PasswordScreen> {
     return null;
   }
 
-  void _sendRecoveryPassword() {
+  Future<void> _sendRecoveryPassword() async {
     if (_formKey.currentState?.validate() ?? false) {
       String email = _emailController.text;
       try {
-        // _sendEmail(email);
+        await _userService.sendEmailRedefinePassword(email);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Email enviado para $email')),
+          SnackBar(
+            content: Text(
+              'Email enviado para $email. Caso não encontre, verifique a caixa de spam ou se o email foi digitado corretamente.',
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+        sleep(Duration(seconds: 2));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao enviar email: ${e.toString()}')),
+          SnackBar(
+            content: Text('Erro ao enviar email: ${e.toString()}'),
+            backgroundColor: Colors.amber,
+          ),
         );
       }
     }
@@ -46,6 +64,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          key: Key("back_button"),
           icon: Icon(
             Icons.arrow_back,
             color: Color(0xFFF2F2F2),
@@ -92,7 +111,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
               ),
               SizedBox(height: 24),
               TextFormField(
-                key: Key("email_key"),
+                key: Key("email_input_field"),
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
@@ -102,7 +121,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
               ),
               SizedBox(height: 24),
               OutlinedButton(
-                key: Key("login_button"),
+                key: Key("send_recovery_email_button"),
                 onPressed: _sendRecoveryPassword,
                 style: OutlinedButton.styleFrom(
                   minimumSize: Size(double.infinity, 56),

@@ -7,6 +7,7 @@ import 'package:mobile/api/user_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/screens/login_screen.dart';
 import 'package:mobile/widgets/bottom_navbar.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  Future<void> _confirmResetPassword() async {
+  Future<void> _confirmResetPassword(String email) async {
     bool? shouldSend = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
@@ -151,7 +152,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (shouldSend == true) {
       try {
-        // _sendEmail(email);
+        await userService.sendEmailRedefinePassword(email);
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -214,18 +215,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  Future<void> _selectImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  void _showTopSnackBar() {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 100, // Distância do topo da tela
+        left: MediaQuery.of(context).size.width * 0.1,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.redAccent,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 5,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Text(
+              'Não foi possível acessar a galeria',
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+  );
 
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      final bytes = await imageFile.readAsBytes();
-      String base64String = base64Encode(bytes);
-      await userService.updateUserPhoto(widget._token, base64String);
-      setState(() {
-        userData['photo'] = base64String;
-      });
+  overlay.insert(overlayEntry);
+
+  Future.delayed(Duration(seconds: 3), () {
+    overlayEntry.remove();
+  });
+  }
+
+  Future<void> _selectImage() async {
+
+    var status = await Permission.storage.status;
+    if (Platform.isIOS){
+      // status = await Permission.storage.status;
+      if (!status.isGranted) {
+        status = await Permission.storage.request();
+      }
+    }
+
+    if (Platform.isAndroid || (Platform.isIOS && status.isGranted)) {
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        File imageFile = File(pickedFile.path);
+        final bytes = await imageFile.readAsBytes();
+        String base64String = base64Encode(bytes);
+        await userService.updateUserPhoto(widget._token, base64String);
+        setState(() {
+          userData['photo'] = base64String;
+        });
+      }
+    } else {
+      _showTopSnackBar();
     }
   }
 
@@ -272,7 +325,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ? MemoryImage(base64Decode(userData['photo']))
                             : AssetImage('assets/images/default.png')
                                 as ImageProvider,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                       border: Border.all(
                         color: Color(0xFF394170),
@@ -282,7 +335,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
             SizedBox(height: 10),
             OutlinedButton(
-              onPressed: _selectImage,
+              onPressed: () async {
+                await _selectImage();
+              },
               child: Text('Editar'),
             ),
             SizedBox(height: 16),
@@ -295,7 +350,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       : Color(0xFF2D2D2D),
                 ),
               ),
-              onTap: _confirmResetPassword,
+              onTap: () => _confirmResetPassword(userData['email']),
               tileColor: Theme.of(context).brightness == Brightness.dark
                   ? Color(0xFF2D2D2D)
                   : Color(0xFFFFFFFF),

@@ -17,6 +17,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
   bool _isLoading = false;
 
   String? _emailValidator(String? value) {
@@ -76,121 +77,136 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 86),
-            child: Padding(
-              padding: const EdgeInsets.all(48.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            key: Key("welcome_text"),
-                            'Olá!',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w900,
+          Align(
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(48.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              key: Key("welcome_text"),
+                              'Olá!',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            Text(
+                              key: Key("register_text"),
+                              'Cadastre-se para continuar.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Container(
+                        child: TextFormField(
+                          key: Key("name_field"),
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            labelText: 'Nome completo',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          Text(
-                            key: Key("register_text"),
-                            'Cadastre-se para continuar.',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Coloque seu nome, por favor';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Container(
+                        child: TextFormField(
+                          key: Key("email_field"),
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    Container(
-                      child: TextFormField(
-                        key: Key("name_field"),
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          labelText: 'Nome completo',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                          validator: _emailValidator,
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Coloque seu nome, por favor';
-                          }
-                          return null;
+                      ),
+                      SizedBox(height: 24),
+                      Container(
+                        child: TextFormField(
+                          key: Key("password_field"),
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: 'Senha',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              color: Color(0xFF1d1d1d),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
+                          ),
+                          obscureText: _obscurePassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Coloque sua senha, por favor';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      OutlinedButton(
+                        key: Key("register_button"),
+                        onPressed: _register,
+                        child: Text('CADASTRAR'),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 56),
+                          maximumSize: Size(double.infinity, 56),
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      GestureDetector(
+                        key: Key("have_account_button"),
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                          );
                         },
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    Container(
-                      child: TextFormField(
-                        key: Key("email_field"),
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                        child: Text(
+                          'Já tenho uma conta',
+                          style: TextStyle(
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
-                        validator: _emailValidator,
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    Container(
-                      child: TextFormField(
-                        key: Key("password_field"),
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          labelText: 'Senha',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Coloque sua senha, por favor';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    OutlinedButton(
-                      key: Key("register_button"),
-                      onPressed: _register,
-                      child: Text('CADASTRAR'),
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 56),
-                        maximumSize: Size(double.infinity, 56),
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    GestureDetector(
-                      key: Key("have_account_button"),
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
-                        );
-                      },
-                      child: Text(
-                        'Já tenho uma conta',
-                        style: TextStyle(
-                          fontSize: 14,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
