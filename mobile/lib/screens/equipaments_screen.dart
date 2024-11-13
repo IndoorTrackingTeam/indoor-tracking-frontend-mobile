@@ -83,11 +83,17 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
         title: Text('Equipamentos'),
         actions: [
           isUpdatingEquipaments
-              ? Container(
-                  padding: EdgeInsets.all(15),
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    strokeWidth: 1,
+              ? Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        strokeWidth: 1,
+                      ),
+                    ),
                   ),
                 )
               : IconButton(
