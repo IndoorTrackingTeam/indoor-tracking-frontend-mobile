@@ -1,22 +1,18 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Logo" width="400" height="200">
+  <img src="assets/logo.png" alt="Logo" width="200" height="200">
 </p>
 
 <p align="center">
   <a>
     <img alt="Static Badge" src="https://img.shields.io/badge/IT-Indoor%20Tracking-F1B600?&logoColor=white&link=https%3A%2F%2Fgithub.com%2FIndoorTrackingTeam">
   </a>
-  <a href="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml">
-    <img src="https://github.com/PedroPereiraGuimaraes/tcc-indoor-tracking-frontend/actions/workflows/ci-cd-test.yaml/badge.svg" alt="Flutter Tests">
+  <a href="https://github.com/IndoorTrackingTeam/indoor-tracking-frontend-mobile/actions/workflows/tests.yaml">
+    <img alt="Page Deploy" src="https://github.com/IndoorTrackingTeam/indoor-tracking-frontend-mobile/actions/workflows/tests.yaml/badge.svg?branch=main">
   </a>
 </p>
 
+## Descrição
 
-## Tecnologias
-Essas tecnologias foram selecionadas para a aplicação com o objetivo de garantir alto desempenho,  eficiência e alta qualidade na aplicação.
+Este repositório contém o código do aplicativo mobile projetado para facilitar a busca e o gerenciamento de equipamentos. Com uma interface intuitiva e funcionalidade responsiva, o aplicativo permite aos usuários realizar diversas operações relacionadas à consulta e manutenção de informações sobre equipamentos.
 
-![Dart](https://img.shields.io/badge/Dart-323330?style=for-the-badge&logo=dart&logoColor=0AC1CD)
-![Flutter](https://img.shields.io/badge/Flutter-323330?style=for-the-badge&logo=flutter&logoColor=0ACD70)
-![Git](https://img.shields.io/badge/Git-323330?style=for-the-badge&logo=git&logoColor=FFA800)
-![GCP](https://img.shields.io/badge/Google%20Cloud-323330?style=for-the-badge&logo=google-cloud&logoColor=FFFFFF)
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-323330?style=for-the-badge&logo=github-actions&logoColor=FFFFFF)
+Caso queria acessar a documentação geral do projeto [**clique aqui.**](https://indoortrackingteam.github.io/indoor-tracking-docs/docs/intro)
