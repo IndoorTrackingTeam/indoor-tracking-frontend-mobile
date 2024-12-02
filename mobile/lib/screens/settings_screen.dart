@@ -245,20 +245,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
-  );
+    );
 
-  overlay.insert(overlayEntry);
+    overlay.insert(overlayEntry);
 
-  Future.delayed(Duration(seconds: 3), () {
-    overlayEntry.remove();
-  });
+    Future.delayed(Duration(seconds: 3), () {
+      overlayEntry.remove();
+    });
   }
 
   Future<void> _selectImage() async {
-
     var status = await Permission.storage.status;
-    if (Platform.isIOS){
-      // status = await Permission.storage.status;
+    if (Platform.isIOS) {
+      status = await Permission.storage.status;
       if (!status.isGranted) {
         status = await Permission.storage.request();
       }
@@ -266,7 +265,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (Platform.isAndroid || (Platform.isIOS && status.isGranted)) {
       final ImagePicker picker = ImagePicker();
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile =
+          await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         File imageFile = File(pickedFile.path);
@@ -301,6 +301,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SizedBox(height: 16),
             isLoading
                 ? Center(
+                    key: Key('loading'),
                     child: Container(
                       width: 120,
                       height: 120,
@@ -315,6 +316,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   )
                 : Container(
+                    key: Key('loaded'),
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
@@ -335,6 +337,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
             SizedBox(height: 10),
             OutlinedButton(
+              key: Key('edit'),
               onPressed: () async {
                 await _selectImage();
               },
@@ -342,6 +345,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             SizedBox(height: 16),
             ListTile(
+              key: Key('reset_password'),
               title: Text(
                 'Redefinir senha',
                 style: TextStyle(
@@ -360,6 +364,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             SizedBox(height: 10),
             ListTile(
+              key: Key('logout'),
               title: Text(
                 'Sair do aplicativo',
                 style: TextStyle(
