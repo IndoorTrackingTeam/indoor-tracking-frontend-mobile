@@ -19,10 +19,10 @@ class EquipamentsScreen extends StatefulWidget {
 class _EquipamentsScreenState extends State<EquipamentsScreen> {
   final TextEditingController _searchController = TextEditingController();
   EquipamentService equipamentService = EquipamentService();
-  List<dynamic> equipaments = [];
   List<dynamic> filteredEquipaments = [];
-  bool isLoading = true;
   bool isUpdatingEquipaments = false;
+  List<dynamic> equipaments = [];
+  bool isLoading = true;
   Timer? _timer;
 
   @override
@@ -83,11 +83,17 @@ class _EquipamentsScreenState extends State<EquipamentsScreen> {
         title: Text('Equipamentos'),
         actions: [
           isUpdatingEquipaments
-              ? Container(
-                  padding: EdgeInsets.all(15),
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    strokeWidth: 1,
+              ? Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        strokeWidth: 1,
+                      ),
+                    ),
                   ),
                 )
               : IconButton(
@@ -212,7 +218,7 @@ Widget cardEquipament(BuildContext context, dynamic equipament) {
                         fit: BoxFit.cover,
                       )
                     : Image.asset(
-                        "default.png",
+                        "assets/images/default.png",
                         width: 150,
                         height: 100,
                         fit: BoxFit.cover,
